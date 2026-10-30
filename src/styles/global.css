@@ -1,0 +1,160 @@
+@import './fonts.css';
+
+:root {
+	color-scheme: dark;
+	--bg: #0b0b0c;
+	--bg-raised: #131315;
+	--fg: #ece9e4;
+	--muted: #8c8a86;
+	--line: rgba(236, 233, 228, 0.12);
+	--accent: #e5332a; /* same red as the hero REC light */
+	--display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+	--body: 'Inter Variable', system-ui, sans-serif;
+	--pad: clamp(1.25rem, 4vw, 3.5rem);
+	--ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	scroll-padding-top: 5rem;
+}
+
+body {
+	margin: 0;
+	background: var(--bg);
+	color: var(--fg);
+	font-family: var(--body);
+	line-height: 1.65;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+h1,
+h2,
+h3 {
+	font-family: var(--display);
+	font-weight: 700;
+	text-transform: uppercase;
+	line-height: 0.95;
+	letter-spacing: 0.01em;
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
+}
+
+.wrap {
+	padding-inline: var(--pad);
+	max-width: 80rem;
+	margin-inline: auto;
+}
+
+.section {
+	padding-block: clamp(4rem, 10vw, 8rem);
+}
+
+.eyebrow {
+	font-family: var(--display);
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.22em;
+	font-size: 0.85rem;
+	color: var(--accent);
+}
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.6rem;
+	padding: 0.9rem 1.6rem;
+	font-family: var(--display);
+	font-weight: 600;
+	font-size: 1rem;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	border: 1px solid var(--fg);
+	transition:
+		background 0.3s var(--ease),
+		color 0.3s var(--ease),
+		border-color 0.3s var(--ease);
+}
+
+.btn:hover {
+	background: var(--fg);
+	color: var(--bg);
+}
+
+.btn--solid {
+	background: var(--accent);
+	border-color: var(--accent);
+	color: #fff;
+}
+
+.btn--solid:hover {
+	background: var(--fg);
+	border-color: var(--fg);
+}
+
+.js .reveal {
+	opacity: 0;
+	transform: translateY(1.5rem);
+	transition:
+		opacity 0.8s var(--ease),
+		transform 0.8s var(--ease);
+}
+
+.js .reveal.in {
+	opacity: 1;
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+	.js .reveal {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
+
+/* Above-the-fold content waits for web fonts (see script in Base.astro), then fades in */
+.js .bar,
+.js .gate,
+.js .hero__top,
+.js .hero__in,
+.js .hero__rail {
+	transition: opacity 0.5s var(--ease);
+}
+
+.js:not(.fonts-ready) .bar,
+.js:not(.fonts-ready) .gate,
+.js:not(.fonts-ready) .hero__top,
+.js:not(.fonts-ready) .hero__in,
+.js:not(.fonts-ready) .hero__rail {
+	opacity: 0;
+}
+
+/* Language-switch cross-fade (the header is excluded via transition:animate="none") */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 0.7s;
+	animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}

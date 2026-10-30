@@ -1,0 +1,714 @@
+---
+import Base from '../../layouts/Base.astro';
+import { projects } from '../../data/projects';
+import { clients } from '../../data/clients';
+import { content, contact, langPaths, paths, withBase, type Lang } from '../../i18n/ui';
+
+export function getStaticPaths() {
+	return langPaths.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Lang;
+const c = content[lang];
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<Base lang={lang}>
+	<!-- HERO -->
+	<section class="hero">
+		<video
+			class="hero__video"
+			src={withBase('/media/hero.mp4')}
+			poster={withBase('/media/hero-poster.jpg')}
+			autoplay
+			muted
+			loop
+			playsinline
+			preload="metadata"
+			aria-hidden="true"
+			tabindex="-1"></video>
+		<div class="hero__shade" aria-hidden="true"></div>
+		<div class="hero__glow" aria-hidden="true"></div>
+		<div class="hero__grain" aria-hidden="true"></div>
+		<div class="wrap hero__top">
+			<p class="eyebrow">{c.hero.kicker}</p>
+		</div>
+		<div class="wrap hero__in">
+			<h1 class="hero__title">
+				<span>{c.hero.line1}</span>
+				<span class="hero__alt">{c.hero.line2}</span>
+			</h1>
+			<p class="hero__sub">{c.hero.sub}</p>
+			<a class="btn btn--solid hero__cta-main" href={paths.contact[lang]}>{c.hero.cta}</a>
+		</div>
+		<div class="wrap hero__rail">
+			<ul class="formats">
+				{c.hero.formats.map((f) => <li>{f}</li>)}
+			</ul>
+			<span class="rec" aria-hidden="true"><i></i>REC <b id="tc">00:00:00:00</b></span>
+		</div>
+	</section>
+
+	<!-- SERVICES -->
+	<section class="section" id="sluzby">
+		<div class="wrap">
+			<h2 class="h2 reveal">{c.services.heading}</h2>
+			<ol class="services">
+				{
+					c.services.items.map((s, i) => (
+						<li class="svc reveal">
+							<span class="svc__n">{num(i)}</span>
+							<h3 class="svc__t">{s.title}</h3>
+							<div class="svc__b">
+								<p>{s.text}</p>
+								<ul class="tags">
+									{s.tags.map((t) => (
+										<li>{t}</li>
+									))}
+								</ul>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+	</section>
+
+	<!-- WORK -->
+	<section class="section work" id="tvorba">
+		<div class="wrap">
+			<div class="work__head reveal">
+				<h2 class="h2">{c.work.heading}</h2>
+				<p class="muted">{c.work.intro}</p>
+			</div>
+			<ul class="grid">
+				{
+					projects.map((id, i) => (
+						<li class="reveal">
+							<button
+								class="tile"
+								type="button"
+								data-yt={id}
+								aria-label={`${c.work.play}: ${c.work.video} ${num(i)}`}
+							>
+								<img
+									src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+									alt=""
+									loading="lazy"
+									width="480"
+									height="360"
+								/>
+								<span class="tile__n">{num(i)}</span>
+								<span class="tile__play" aria-hidden="true" />
+							</button>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<dialog id="player" aria-label={c.work.video}>
+		<button class="player__x" type="button" aria-label={c.work.close}>&times;</button>
+		<div class="player__frame" tabindex="-1" autofocus></div>
+	</dialog>
+
+	<!-- CLIENTS -->
+	<section class="clients" aria-label={c.clients.label}>
+		<ul class="wrap clients__list reveal">
+			{
+				clients.map((cl) => (
+					<li>
+						<img
+							src={withBase(`/media/clients/${cl.file}`)}
+							alt={cl.name}
+							loading="lazy"
+						/>
+					</li>
+				))
+			}
+		</ul>
+	</section>
+
+	<!-- ABOUT -->
+	<section class="section" id="o-nas">
+		<div class="wrap about">
+			<div class="about__l reveal">
+				<h2 class="h2">{c.about.heading}</h2>
+				<p class="about__lead">{c.about.lead}</p>
+			</div>
+			<div class="about__r reveal">
+				{c.about.paragraphs.map((p) => <p>{p}</p>)}
+				<div class="training">
+					<h3>{c.about.trainingTitle}</h3>
+					<p>{c.about.training}</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- CONTACT -->
+	<section class="section contact" id="kontakt">
+		<div class="wrap">
+			<h2 class="h2 h2--xl reveal">{c.contact.heading}</h2>
+			<p class="contact__lead reveal">{c.contact.lead}</p>
+			<dl class="contact__list reveal">
+				<div>
+					<dt>{c.contact.phone}</dt>
+					<dd><a href={contact.phoneHref}>{contact.phone}</a></dd>
+				</div>
+				<div>
+					<dt>{c.contact.email}</dt>
+					<dd><a href={contact.emailHref}>{contact.email}</a></dd>
+				</div>
+				<div>
+					<dt>{c.contact.area}</dt>
+					<dd>{c.contact.areaValue}</dd>
+				</div>
+			</dl>
+			<a class="btn btn--solid reveal" href={paths.contact[lang]}>{c.contact.cta}</a>
+		</div>
+	</section>
+
+	<script>
+		// Module-level so a navigation can tear down what the previous page started
+		let tickId = 0;
+		let onScroll: (() => void) | null = null;
+
+		function init() {
+			const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+			const bg = document.querySelector<HTMLVideoElement>('.hero__video');
+			const hero = document.querySelector<HTMLElement>('.hero');
+
+			// Respect reduced-motion: keep the poster frame instead of playing the background clip
+			if (reduced) {
+				bg?.removeAttribute('autoplay');
+				bg?.pause();
+			}
+
+			// Fade the background video to black as the page scrolls; pause it once it's invisible
+			if (onScroll) removeEventListener('scroll', onScroll);
+			onScroll = null;
+			if (hero && bg) {
+				let ticking = false;
+				const update = () => {
+					ticking = false;
+					const fade = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight * 0.2)));
+					hero.style.setProperty('--fade', fade.toFixed(3));
+					if (fade >= 1 && !bg.paused) bg.pause();
+					else if (fade < 1 && bg.paused && !reduced) bg.play().catch(() => {});
+				};
+				// If a browser skipped autoplay (e.g. after an interrupted first load), start once it can
+				const kick = () => {
+					if (bg.paused && !reduced && Number(hero.style.getPropertyValue('--fade') || 0) < 1)
+						bg.play().catch(() => {});
+				};
+				bg.addEventListener('canplay', kick, { once: true });
+				if (bg.readyState >= 3) kick();
+				onScroll = () => {
+					if (!ticking) {
+						ticking = true;
+						requestAnimationFrame(update);
+					}
+				};
+				addEventListener('scroll', onScroll, { passive: true });
+				update();
+			}
+
+			// Running timecode in the hero (purely decorative)
+			cancelAnimationFrame(tickId);
+			const tc = document.getElementById('tc');
+			if (tc && !reduced) {
+				const start = performance.now();
+				const p = (n: number) => String(n).padStart(2, '0');
+				const tick = () => {
+					const ms = performance.now() - start;
+					const s = Math.floor(ms / 1000);
+					tc.textContent = `${p(Math.floor(s / 3600))}:${p(Math.floor(s / 60) % 60)}:${p(s % 60)}:${p(Math.floor(((ms % 1000) / 1000) * 25))}`;
+					tickId = requestAnimationFrame(tick);
+				};
+				tickId = requestAnimationFrame(tick);
+			}
+
+			// Click-to-load video: nothing is requested from YouTube's player until a tile is clicked
+			const dlg = document.getElementById('player') as HTMLDialogElement | null;
+			const frame = dlg?.querySelector('.player__frame');
+			const close = () => {
+				if (frame) frame.innerHTML = '';
+				dlg?.close();
+			};
+			document.querySelectorAll<HTMLButtonElement>('.tile').forEach((tile) =>
+				tile.addEventListener('click', () => {
+					const id = tile.dataset.yt;
+					if (!id || !dlg || !frame || !/^[\w-]{11}$/.test(id)) return;
+					const f = document.createElement('iframe');
+					f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+					f.allow = 'autoplay; fullscreen; picture-in-picture';
+					f.allowFullscreen = true;
+					f.title = dlg.getAttribute('aria-label') ?? '';
+					frame.replaceChildren(f);
+					dlg.showModal();
+				}),
+			);
+			dlg?.querySelector('.player__x')?.addEventListener('click', close);
+			dlg?.addEventListener('close', () => frame && (frame.innerHTML = ''));
+			dlg?.addEventListener('click', (e) => e.target === dlg && close());
+		}
+
+		document.addEventListener('astro:page-load', init);
+	</script>
+</Base>
+
+<style>
+	/* Hero */
+	.hero {
+		position: relative;
+		min-height: 100svh;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		overflow: hidden;
+		padding-top: 7rem;
+		isolation: isolate;
+	}
+	.hero__video {
+		position: absolute;
+		inset: 0;
+		z-index: -4;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		opacity: calc(1 - var(--fade, 0));
+	}
+	.hero__shade {
+		position: absolute;
+		inset: 0;
+		z-index: -3;
+		background:
+			linear-gradient(to top, var(--bg) 0%, rgba(11, 11, 12, 0.55) 45%, rgba(11, 11, 12, 0.75) 100%),
+			rgba(11, 11, 12, 0.35);
+	}
+	.hero__glow {
+		position: absolute;
+		inset: -20%;
+		z-index: -2;
+		mix-blend-mode: screen;
+		background:
+			radial-gradient(40% 50% at 78% 30%, rgba(229, 51, 42, 0.22), transparent 70%),
+			radial-gradient(45% 55% at 15% 85%, rgba(120, 24, 20, 0.3), transparent 70%);
+		animation: drift 18s ease-in-out infinite alternate;
+	}
+	.hero__grain {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		opacity: 0.16;
+		mix-blend-mode: overlay;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	}
+	@keyframes drift {
+		to {
+			transform: translate3d(-4%, 3%, 0) scale(1.08);
+		}
+	}
+	.hero__in {
+		width: 100%;
+	}
+	/* Sits right under the fixed logo, aligned with its left edge */
+	.hero__top {
+		position: absolute;
+		top: 4.7rem;
+		left: 0;
+		right: 0;
+	}
+	.hero__title {
+		display: flex;
+		flex-direction: column;
+		font-size: clamp(2.6rem, 10.5vw, 9rem);
+		line-height: 1;
+		overflow-wrap: anywhere;
+	}
+	.hero__alt {
+		color: transparent;
+		-webkit-text-stroke: 2px var(--fg);
+	}
+	.hero__sub {
+		max-width: 32rem;
+		margin-top: 1.8rem;
+		font-size: 1.15rem;
+		color: rgba(236, 233, 228, 0.82);
+		text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
+	}
+	.hero__cta-main {
+		margin-top: 2.2rem;
+	}
+	/* On wider screens this button lives in the header instead */
+	@media (min-width: 701px) {
+		.hero__cta-main {
+			display: none;
+		}
+	}
+	.hero__rail {
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem 2rem;
+		flex-wrap: wrap;
+		margin-top: clamp(2.5rem, 6vw, 4.5rem);
+		padding-block: 1.3rem;
+		border-top: 1px solid var(--line);
+	}
+	.formats {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem 2rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		font-family: var(--display);
+		font-weight: 600;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		font-size: 0.95rem;
+		color: var(--muted);
+	}
+	.rec {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-family: var(--display);
+		font-weight: 600;
+		letter-spacing: 0.16em;
+		font-size: 0.95rem;
+		color: var(--muted);
+	}
+	.rec b {
+		font-weight: 600;
+		color: var(--fg);
+		font-variant-numeric: tabular-nums;
+	}
+	.rec i {
+		width: 0.65rem;
+		height: 0.65rem;
+		border-radius: 50%;
+		background: var(--accent);
+		animation: blink 1.6s steps(1) infinite;
+	}
+	@keyframes blink {
+		50% {
+			opacity: 0.15;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.hero__glow,
+		.rec i {
+			animation: none;
+		}
+	}
+
+	/* Shared heading */
+	.h2 {
+		font-size: clamp(2.6rem, 7vw, 5.5rem);
+		margin-bottom: clamp(2rem, 5vw, 3.5rem);
+	}
+	.h2--xl {
+		font-size: clamp(3.2rem, 11vw, 9rem);
+		margin-bottom: 1.5rem;
+	}
+	.muted {
+		color: var(--muted);
+	}
+
+	/* Services: editorial list */
+	.services {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid var(--line);
+	}
+	.svc {
+		display: grid;
+		grid-template-columns: 3.5rem minmax(0, 1fr) minmax(0, 1.4fr);
+		gap: 1rem 2rem;
+		padding-block: 2rem;
+		border-bottom: 1px solid var(--line);
+		transition: background 0.4s var(--ease);
+	}
+	.svc:hover {
+		background: linear-gradient(90deg, rgba(229, 51, 42, 0.07), transparent 70%);
+	}
+	.svc__n {
+		font-family: var(--display);
+		font-weight: 600;
+		color: var(--accent);
+		letter-spacing: 0.1em;
+		padding-top: 0.35rem;
+	}
+	.svc__t {
+		font-size: clamp(1.7rem, 3vw, 2.4rem);
+		line-height: 1;
+	}
+	.svc__b p {
+		color: var(--muted);
+		max-width: 38rem;
+	}
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.4rem;
+		list-style: none;
+		margin: 1.1rem 0 0;
+		padding: 0;
+	}
+	.tags li {
+		padding: 0.2rem 0.75rem;
+		border: 1px solid var(--line);
+		border-radius: 99px;
+		font-size: 0.8rem;
+	}
+
+	/* Work */
+	.work {
+		background: var(--bg-raised);
+	}
+	.work__head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 0.5rem 2rem;
+	}
+	.work__head .h2 {
+		margin-bottom: 2rem;
+	}
+	.grid {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+		gap: 0.75rem;
+	}
+	.tile {
+		position: relative;
+		display: block;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		padding: 0;
+		border: 0;
+		background: #000;
+		overflow: hidden;
+		cursor: pointer;
+		color: var(--fg);
+	}
+	.tile img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(0.85) brightness(0.75);
+		transition:
+			filter 0.5s var(--ease),
+			transform 0.7s var(--ease);
+	}
+	.tile:hover img,
+	.tile:focus-visible img {
+		filter: none;
+		transform: scale(1.05);
+	}
+	.tile__n {
+		position: absolute;
+		left: 0.8rem;
+		bottom: 0.6rem;
+		font-family: var(--display);
+		font-weight: 600;
+		letter-spacing: 0.12em;
+	}
+	.tile__play {
+		position: absolute;
+		right: 0.8rem;
+		bottom: 0.8rem;
+		width: 0;
+		height: 0;
+		border-left: 0.9rem solid var(--accent);
+		border-block: 0.55rem solid transparent;
+		opacity: 0;
+		transform: translateX(-0.5rem);
+		transition:
+			opacity 0.3s,
+			transform 0.3s var(--ease);
+	}
+	.tile:hover .tile__play,
+	.tile:focus-visible .tile__play {
+		opacity: 1;
+		transform: none;
+	}
+
+	/* Video dialog */
+	#player {
+		width: min(100vw - 2rem, 70rem);
+		padding: 0;
+		border: 0;
+		background: #000;
+		color: var(--fg);
+	}
+	#player::backdrop {
+		background: rgba(0, 0, 0, 0.88);
+	}
+	.player__frame {
+		aspect-ratio: 16 / 9;
+	}
+	/* Focus lands here on open so the close button isn't ringed; Tab still shows its ring */
+	.player__frame:focus {
+		outline: none;
+	}
+	.player__frame :global(iframe) {
+		width: 100%;
+		height: 100%;
+		border: 0;
+		display: block;
+	}
+	.player__x {
+		position: absolute;
+		top: -2.6rem;
+		right: 0;
+		background: none;
+		border: 0;
+		color: var(--fg);
+		font-size: 2.2rem;
+		line-height: 1;
+		cursor: pointer;
+	}
+	#player {
+		overflow: visible;
+	}
+
+	/* Clients: white-toned logos on black, brighten on hover */
+	.clients {
+		border-block: 1px solid var(--line);
+		padding-block: clamp(2.5rem, 6vw, 4.5rem);
+	}
+	.clients__list {
+		list-style: none;
+		margin-block: 0;
+		padding-block: 0;
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		align-items: center;
+		gap: 1.5rem 1rem;
+	}
+	.clients__list li {
+		height: 5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.clients__list img {
+		/* Logos have very different shapes: cap width and height so none dominates */
+		max-width: 9rem;
+		max-height: 3.4rem;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+		filter: brightness(0) invert(1);
+		opacity: 0.7;
+		transition: opacity 0.3s var(--ease);
+	}
+	.clients__list li:hover img {
+		opacity: 1;
+	}
+	@media (max-width: 900px) {
+		.clients__list {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+	}
+	@media (max-width: 480px) {
+		.clients__list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	/* About */
+	.about {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+		gap: clamp(2rem, 6vw, 6rem);
+	}
+	.about__lead {
+		font-size: 1.25rem;
+		line-height: 1.5;
+		max-width: 28rem;
+	}
+	.about__r {
+		display: grid;
+		gap: 1.2rem;
+		color: var(--muted);
+		align-content: start;
+	}
+	.training {
+		margin-top: 1.2rem;
+		padding: 1.6rem 1.8rem;
+		border-left: 3px solid var(--accent);
+		background: var(--bg-raised);
+	}
+	.training h3 {
+		font-size: 1.6rem;
+		color: var(--fg);
+		margin-bottom: 0.5rem;
+	}
+
+	/* Contact */
+	.contact {
+		border-top: 1px solid var(--line);
+	}
+	.contact__lead {
+		max-width: 34rem;
+		color: var(--muted);
+		font-size: 1.1rem;
+	}
+	.contact__list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+		gap: 1.5rem 3rem;
+		margin: 3rem 0;
+	}
+	.contact__list div {
+		border-top: 1px solid var(--line);
+		padding-top: 1rem;
+	}
+	dt {
+		font-family: var(--display);
+		font-weight: 600;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		font-size: 0.8rem;
+		color: var(--accent);
+	}
+	dd {
+		margin: 0.2rem 0 0;
+		font-family: var(--display);
+		font-weight: 600;
+		font-size: clamp(1.5rem, 3vw, 2.1rem);
+	}
+	dd a {
+		transition: color 0.25s;
+	}
+	dd a:hover {
+		color: var(--accent);
+	}
+
+	@media (max-width: 760px) {
+		.svc {
+			grid-template-columns: 2.5rem minmax(0, 1fr);
+		}
+		.svc__b {
+			grid-column: 2;
+		}
+		.about {
+			grid-template-columns: 1fr;
+		}
+		.hero__alt {
+			-webkit-text-stroke-width: 1.5px;
+		}
+	}
+</style>

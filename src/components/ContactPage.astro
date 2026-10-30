@@ -1,0 +1,443 @@
+---
+import Base from '../layouts/Base.astro';
+import { content, contact, paths, privacyUrl, type Lang } from '../i18n/ui';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+const c = content[lang];
+const t = c.contactPage;
+
+// Where submissions are sent. Set in .env (see .env.example); empty = e-mail app fallback.
+const endpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT ?? '';
+const accessKey = import.meta.env.PUBLIC_CONTACT_KEY ?? '';
+---
+
+<Base lang={lang} title={t.metaTitle} description={t.metaDescription} alt={paths.contact} cta={false}>
+	<section class="cp gate">
+		<div class="cp__glow" aria-hidden="true"></div>
+		<div class="cp__grain" aria-hidden="true"></div>
+
+		<div class="wrap cp__grid">
+			<div class="cp__info">
+				<p class="eyebrow">{t.eyebrow}</p>
+				<h1 class="cp__title">{t.heading}</h1>
+				<p class="cp__lead">{t.lead}</p>
+
+				<dl class="cp__list">
+					<div>
+						<dt>{c.contact.phone}</dt>
+						<dd><a href={contact.phoneHref}>{contact.phone}</a></dd>
+					</div>
+					<div>
+						<dt>{c.contact.email}</dt>
+						<dd><a href={contact.emailHref}>{contact.email}</a></dd>
+					</div>
+					<div>
+						<dt>{c.contact.area}</dt>
+						<dd>{c.contact.areaValue}</dd>
+					</div>
+				</dl>
+			</div>
+
+			<div class="cp__panel">
+				<form
+					class="cform"
+					method="post"
+					data-endpoint={endpoint}
+					data-key={accessKey}
+					data-lang={lang}
+					data-mailto={contact.email}
+				>
+					<div class="field">
+						<label for="cf-name">{t.name}<span class="star" aria-hidden="true"> *</span></label>
+						<input
+							id="cf-name"
+							name="name"
+							type="text"
+							placeholder={t.namePh}
+							autocomplete="name"
+							pattern=".*\S+.*"
+							maxlength="120"
+							required
+						/>
+					</div>
+
+					<div class="field">
+						<label for="cf-email">{t.email}<span class="star" aria-hidden="true"> *</span></label>
+						<input
+							id="cf-email"
+							name="email"
+							type="email"
+							placeholder={t.emailPh}
+							autocomplete="email"
+							maxlength="160"
+							required
+						/>
+					</div>
+
+					<div class="field">
+						<label for="cf-phone">{t.phone} <span class="opt">({t.phoneOptional})</span></label>
+						<input
+							id="cf-phone"
+							name="phone"
+							type="tel"
+							placeholder={t.phonePh}
+							autocomplete="tel"
+							inputmode="tel"
+							maxlength="40"
+						/>
+					</div>
+
+					<div class="field">
+						<label for="cf-message">{t.message}<span class="star" aria-hidden="true"> *</span></label>
+						<textarea
+							id="cf-message"
+							name="message"
+							rows="6"
+							placeholder={t.messagePh}
+							maxlength="5000"
+							required></textarea>
+					</div>
+
+					<!-- Honeypot: invisible to people, bots fill it in -->
+					<div class="hp" aria-hidden="true">
+						<label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+					</div>
+
+					<p class="terms">
+						{t.consentPre}{' '}
+						<a href={privacyUrl} target="_blank" rel="noopener">{t.consentLink}</a>{t.consentPost}
+					</p>
+
+					<button type="submit" class="btn btn--solid cform__send" data-send={t.send} data-sending={t.sending}>
+						{t.send}
+					</button>
+
+					<p class="cform__error" role="alert" hidden>
+						{t.error}
+						<a href={contact.emailHref}>{contact.email}</a>.
+					</p>
+					<p class="cform__note" role="status" hidden>{t.fallback}</p>
+				</form>
+
+				<div class="done" role="status" tabindex="-1" hidden>
+					<svg class="done__icon" viewBox="0 0 52 52" aria-hidden="true">
+						<circle cx="26" cy="26" r="24" fill="none" stroke="currentColor" stroke-width="2"></circle>
+						<path d="M15 27l8 8 15-17" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+					</svg>
+					<h2 class="done__title">{t.successTitle}</h2>
+					<p class="done__text">{t.successText}</p>
+					<a class="btn" href={paths.home[lang]}>{t.back}</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script>
+		function init() {
+			const form = document.querySelector<HTMLFormElement>('.cform');
+			if (!form) return;
+			const panel = form.parentElement!;
+			const done = panel.querySelector<HTMLElement>('.done')!;
+			const errorEl = form.querySelector<HTMLElement>('.cform__error')!;
+			const noteEl = form.querySelector<HTMLElement>('.cform__note')!;
+			const send = form.querySelector<HTMLButtonElement>('.cform__send')!;
+
+			const showDone = () => {
+				form.hidden = true;
+				done.hidden = false;
+				done.focus({ preventScroll: true });
+			};
+
+			form.addEventListener('submit', async (e) => {
+				e.preventDefault();
+				errorEl.hidden = true;
+				noteEl.hidden = true;
+
+				const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+				if (data.website) return showDone(); // honeypot filled: pretend success, send nothing
+
+				const { endpoint, key, lang, mailto } = form.dataset;
+				const subject = `${lang === 'en' ? 'Quote request' : 'Poptávka z webu'} – ${data.name}`;
+
+				// No sending service configured yet: open the visitor's e-mail app with the message prepared
+				if (!endpoint) {
+					const body = `${data.message}\n\n${data.name}\n${data.email}${data.phone ? '\n' + data.phone : ''}`;
+					location.href = `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+					noteEl.hidden = false;
+					return;
+				}
+
+				send.disabled = true;
+				send.textContent = send.dataset.sending ?? '';
+				try {
+					const res = await fetch(endpoint, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+						body: JSON.stringify({
+							name: data.name,
+							email: data.email,
+							phone: data.phone ?? '',
+							message: data.message,
+							language: lang,
+							_subject: subject,
+							subject,
+							...(key ? { access_key: key } : {}),
+						}),
+					});
+					if (!res.ok) throw new Error(String(res.status));
+					showDone();
+				} catch {
+					errorEl.hidden = false;
+					send.disabled = false;
+					send.textContent = send.dataset.send ?? '';
+				}
+			});
+		}
+		document.addEventListener('astro:page-load', init);
+	</script>
+</Base>
+
+<style>
+	.cp {
+		position: relative;
+		min-height: 100svh;
+		padding-block: clamp(7rem, 14vw, 10rem) clamp(3rem, 8vw, 6rem);
+		overflow: hidden;
+		isolation: isolate;
+	}
+	.cp__glow {
+		position: absolute;
+		inset: -20%;
+		z-index: -2;
+		background:
+			radial-gradient(40% 45% at 85% 15%, rgba(229, 51, 42, 0.2), transparent 70%),
+			radial-gradient(45% 55% at 5% 95%, rgba(120, 24, 20, 0.28), transparent 70%);
+	}
+	.cp__grain {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		opacity: 0.14;
+		mix-blend-mode: overlay;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	}
+	.cp__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+		gap: clamp(2.5rem, 7vw, 7rem);
+		align-items: start;
+	}
+
+	/* Left: heading and contact details */
+	.cp__title {
+		margin-top: 1rem;
+		font-size: clamp(3.4rem, 9vw, 8rem);
+		line-height: 0.9;
+	}
+	.cp__lead {
+		max-width: 28rem;
+		margin-top: 1.6rem;
+		color: var(--muted);
+		font-size: 1.1rem;
+	}
+	.cp__list {
+		margin: 2.6rem 0 0;
+		display: grid;
+		gap: 1.3rem;
+		max-width: 28rem;
+	}
+	.cp__list div {
+		border-top: 1px solid var(--line);
+		padding-top: 0.9rem;
+	}
+	dt {
+		font-family: var(--display);
+		font-weight: 600;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		font-size: 0.8rem;
+		color: var(--accent);
+	}
+	dd {
+		margin: 0.15rem 0 0;
+		font-family: var(--display);
+		font-weight: 600;
+		font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+	}
+	dd a {
+		transition: color 0.25s;
+	}
+	dd a:hover {
+		color: var(--accent);
+	}
+
+	/* Right: the form */
+	.cp__panel {
+		padding: clamp(1.5rem, 3.5vw, 2.8rem);
+		background: rgba(19, 19, 21, 0.72);
+		border: 1px solid var(--line);
+		border-top: 3px solid var(--accent);
+		backdrop-filter: blur(6px);
+	}
+	.cform {
+		display: grid;
+		gap: 1.6rem;
+	}
+	.field {
+		display: grid;
+		gap: 0.35rem;
+	}
+	label {
+		font-family: var(--display);
+		font-weight: 600;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		font-size: 0.85rem;
+		color: var(--muted);
+		transition: color 0.25s;
+	}
+	.field:focus-within label {
+		color: var(--fg);
+	}
+	.star {
+		color: var(--accent);
+	}
+	.opt {
+		text-transform: none;
+		letter-spacing: 0.04em;
+		font-weight: 400;
+		opacity: 0.7;
+	}
+	input,
+	textarea {
+		width: 100%;
+		padding: 0.7rem 0;
+		font: inherit;
+		font-size: 1.05rem;
+		color: var(--fg);
+		background: transparent;
+		border: 0;
+		border-bottom: 1px solid rgba(236, 233, 228, 0.28);
+		border-radius: 0;
+		transition: border-color 0.25s;
+	}
+	textarea {
+		min-height: 9rem;
+		resize: vertical;
+	}
+	input::placeholder,
+	textarea::placeholder {
+		color: rgba(236, 233, 228, 0.32);
+	}
+	input:hover,
+	textarea:hover {
+		border-bottom-color: rgba(236, 233, 228, 0.55);
+	}
+	input:focus,
+	textarea:focus {
+		outline: none;
+		border-bottom-color: var(--accent);
+		box-shadow: 0 1px 0 0 var(--accent);
+	}
+	/* Only flag a field once it's been touched */
+	input:user-invalid,
+	textarea:user-invalid {
+		border-bottom-color: var(--accent);
+	}
+	.hp {
+		position: absolute;
+		left: -9999px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+	}
+	.terms {
+		font-size: 0.85rem;
+		color: var(--muted);
+	}
+	.terms a {
+		color: var(--fg);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	.terms a:hover {
+		color: var(--accent);
+	}
+	.cform__send {
+		justify-self: start;
+		cursor: pointer;
+	}
+	.cform__send:disabled {
+		opacity: 0.6;
+		cursor: progress;
+	}
+	.cform__error {
+		color: #ff7b72;
+		font-size: 0.95rem;
+	}
+	.cform__error a {
+		text-decoration: underline;
+	}
+	.cform__note {
+		color: var(--muted);
+		font-size: 0.95rem;
+	}
+	[hidden] {
+		display: none !important;
+	}
+
+	/* Success state */
+	.done {
+		display: grid;
+		justify-items: start;
+		gap: 1rem;
+		padding-block: 1rem;
+		outline: none;
+		animation: rise 0.7s var(--ease) both;
+	}
+	.done__icon {
+		width: 4rem;
+		height: 4rem;
+		color: var(--accent);
+	}
+	.done__icon path {
+		stroke-dasharray: 40;
+		stroke-dashoffset: 40;
+		animation: draw 0.6s 0.25s var(--ease) forwards;
+	}
+	.done__title {
+		font-size: clamp(2.2rem, 5vw, 3.4rem);
+	}
+	.done__text {
+		color: var(--muted);
+		max-width: 26rem;
+		margin-bottom: 0.8rem;
+	}
+	@keyframes rise {
+		from {
+			opacity: 0;
+			transform: translateY(1rem);
+		}
+	}
+	@keyframes draw {
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.done,
+		.done__icon path {
+			animation: none;
+			stroke-dashoffset: 0;
+		}
+	}
+
+	@media (max-width: 860px) {
+		.cp__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>

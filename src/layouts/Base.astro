@@ -1,0 +1,284 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import barlow600 from '@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2?url';
+import barlow600ext from '@fontsource/barlow-condensed/files/barlow-condensed-latin-ext-600-normal.woff2?url';
+import barlow700 from '@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2?url';
+import barlow700ext from '@fontsource/barlow-condensed/files/barlow-condensed-latin-ext-700-normal.woff2?url';
+import inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import interExt from '@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2?url';
+import { content, languages, paths, withBase, type Lang } from '../i18n/ui';
+
+interface Props {
+	lang: Lang;
+	/** Title / description override for pages other than the home page */
+	title?: string;
+	description?: string;
+	/** This page's address in each language, so the language switch lands on the same page */
+	alt?: Record<Lang, string>;
+	/** Show the header "free quote" button (hidden on the contact page itself) */
+	cta?: boolean;
+}
+const { lang, title, description, alt = paths.home, cta = true } = Astro.props;
+const fonts = [barlow700, barlow700ext, barlow600, barlow600ext, inter, interExt];
+const c = content[lang];
+const other = (Object.keys(languages) as Lang[]).filter((l) => l !== lang);
+const home = paths.home[lang];
+const links = [
+	{ href: `${home}#sluzby`, label: c.nav.services },
+	{ href: `${home}#tvorba`, label: c.nav.work },
+	{ href: `${home}#o-nas`, label: c.nav.about },
+	{ href: paths.contact[lang], label: c.nav.contact },
+];
+---
+
+<html lang={lang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+		<script is:inline>
+			// Hide above-the-fold content until the web fonts are ready, so boxed elements
+			// (buttons, language pill) are never drawn at fallback-font size and then resized.
+			(function () {
+				var d = document.documentElement;
+				d.classList.add('js');
+				var done = function () {
+					d.classList.add('fonts-ready');
+				};
+				setTimeout(done, 1500); // never leave the page hidden if a font fails
+				if (!document.fonts || !document.fonts.load) return done();
+				// Wait for DOMContentLoaded: this script runs before the stylesheet with the
+				// @font-face rules is parsed, and load() would resolve instantly with no match.
+				document.addEventListener('DOMContentLoaded', function () {
+					var t = 'Čěšžýáí Aa';
+					Promise.all([
+						document.fonts.load('700 1em "Barlow Condensed"', t),
+						document.fonts.load('600 1em "Barlow Condensed"', t),
+						document.fonts.load('1em "Inter Variable"', t),
+					]).then(done, done);
+				});
+			})();
+		</script>
+		{fonts.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
+		<ClientRouter />
+		<title>{title ?? c.meta.title}</title>
+		<meta name="description" content={description ?? c.meta.description} />
+		<meta property="og:title" content={title ?? c.meta.title} />
+		<meta property="og:description" content={description ?? c.meta.description} />
+		<meta property="og:type" content="website" />
+		<meta name="theme-color" content="#0b0b0c" />
+		<link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+		{
+			Object.keys(languages).map((l) => (
+				<link rel="alternate" hreflang={l} href={alt[l as Lang]} />
+			))
+		}
+	</head>
+	<body>
+		<header class="bar" transition:name="header" transition:animate="none">
+			<a href={home} class="mark" aria-label="video-natáčení.cz">
+				<span class="mark__dot"></span>video<span class="mark__sep">-</span>natáčení
+			</a>
+			<div class="bar__end">
+				{cta && <a class="btn btn--solid bar__cta" href={paths.contact[lang]}>{c.hero.cta}</a>}
+				{
+					other.map((l) => (
+						<a href={alt[l]} hreflang={l} lang={l} class="lang">
+							{l.toUpperCase()}
+						</a>
+					))
+				}
+				<button class="burger" aria-expanded="false" aria-controls="sheet" aria-label={c.nav.menu}>
+					<span></span><span></span>
+				</button>
+			</div>
+		</header>
+
+		<div id="sheet" class="sheet" hidden>
+			{links.map((l) => <a href={l.href}>{l.label}</a>)}
+		</div>
+
+		<main>
+			<slot />
+		</main>
+
+
+		<script>
+			// Runs on first load and after every client-side navigation (language switch)
+			let closeMenu = () => {};
+
+			function init() {
+				const burger = document.querySelector<HTMLButtonElement>('.burger');
+				const sheet = document.getElementById('sheet');
+				const setOpen = (open: boolean) => {
+					if (!burger || !sheet) return;
+					burger.setAttribute('aria-expanded', String(open));
+					sheet.hidden = !open;
+					document.body.style.overflow = open ? 'hidden' : '';
+				};
+				closeMenu = () => setOpen(false);
+				burger?.addEventListener('click', () =>
+					setOpen(burger.getAttribute('aria-expanded') !== 'true'),
+				);
+				sheet?.addEventListener('click', (e) => {
+					if ((e.target as HTMLElement).closest('a')) setOpen(false);
+				});
+
+				// Fade sections in as they scroll into view
+				const io = new IntersectionObserver(
+					(entries) =>
+						entries.forEach((en) => {
+							if (en.isIntersecting) {
+								en.target.classList.add('in');
+								io.unobserve(en.target);
+							}
+						}),
+					{ threshold: 0.15 },
+				);
+				document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+				// Switching language keeps the current scroll position
+				document.querySelectorAll('.lang').forEach((a) =>
+					a.addEventListener('click', () => sessionStorage.setItem('keepScroll', String(scrollY))),
+				);
+				const saved = sessionStorage.getItem('keepScroll');
+				if (saved !== null) {
+					sessionStorage.removeItem('keepScroll');
+					scrollTo({ top: Number(saved), behavior: 'instant' });
+				}
+			}
+
+			document.addEventListener('keydown', (e) => e.key === 'Escape' && closeMenu());
+			// The swapped-in <html> doesn't carry the classes the inline script added
+			document.addEventListener('astro:after-swap', () =>
+				document.documentElement.classList.add('js', 'fonts-ready'),
+			);
+			document.addEventListener('astro:page-load', init);
+		</script>
+	</body>
+</html>
+
+<style>
+	.bar {
+		position: fixed;
+		inset: 0 0 auto 0;
+		z-index: 20;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 2rem;
+		/* Fixed height so the logo never moves, whatever the header contains (e.g. the CTA button is hidden on the contact page) */
+		height: 4.7rem;
+		padding: 0 max(var(--pad), calc((100vw - 80rem) / 2 + var(--pad)));
+		background: linear-gradient(to bottom, rgba(11, 11, 12, 0.85), rgba(11, 11, 12, 0));
+		backdrop-filter: blur(6px);
+	}
+	.mark {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.55rem;
+		font-family: var(--display);
+		font-weight: 700;
+		font-size: 1.35rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+	.mark__dot {
+		width: 0.6rem;
+		height: 0.6rem;
+		border-radius: 50%;
+		background: var(--accent);
+	}
+	.mark__sep {
+		color: var(--accent);
+		margin-inline: 0.1em;
+	}
+	.lang {
+		font-family: var(--display);
+		font-weight: 600;
+		font-size: 1rem;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--muted);
+		transition: color 0.25s;
+	}
+	.lang:hover {
+		color: var(--fg);
+	}
+	.bar__cta {
+		padding: 0.45rem 1.1rem;
+		font-size: 0.9rem;
+	}
+	/* No room beside the logo on phones: the hero shows the button instead */
+	@media (max-width: 700px) {
+		.bar__cta {
+			display: none;
+		}
+	}
+	.bar__end {
+		margin-left: auto;
+		display: flex;
+		align-items: center;
+		gap: 1.2rem;
+	}
+	.lang {
+		border: 1px solid var(--line);
+		padding: 0.15rem 0.6rem;
+	}
+	.burger {
+		display: block;
+		position: relative;
+		width: 2.4rem;
+		height: 2.4rem;
+		background: none;
+		border: 0;
+		color: var(--fg);
+		cursor: pointer;
+	}
+	.burger span {
+		position: absolute;
+		left: 0.4rem;
+		right: 0.4rem;
+		height: 2px;
+		background: currentColor;
+		transition: transform 0.3s var(--ease);
+	}
+	.burger span:first-child {
+		top: 0.95rem;
+	}
+	.burger span:last-child {
+		bottom: 0.95rem;
+	}
+	.burger[aria-expanded='true'] span:first-child {
+		transform: translateY(0.3rem) rotate(45deg);
+	}
+	.burger[aria-expanded='true'] span:last-child {
+		transform: translateY(-0.3rem) rotate(-45deg);
+	}
+	.sheet {
+		position: fixed;
+		inset: 0;
+		z-index: 15;
+		background: var(--bg);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 0.4rem;
+		padding: var(--pad) max(var(--pad), calc((100vw - 80rem) / 2 + var(--pad)));
+	}
+	.sheet[hidden] {
+		display: none;
+	}
+	.sheet a {
+		align-self: flex-start; /* link is only as wide as its text, not the full row */
+		font-family: var(--display);
+		font-weight: 700;
+		font-size: clamp(3rem, 14vw, 5rem);
+		text-transform: uppercase;
+		line-height: 1.05;
+	}
+	.sheet a:hover {
+		color: var(--accent);
+	}
+</style>
