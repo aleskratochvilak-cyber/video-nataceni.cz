@@ -7,7 +7,8 @@
 	--fg: #ece9e4;
 	--muted: #8c8a86;
 	--line: rgba(236, 233, 228, 0.12);
-	--accent: #e5332a; /* same red as the hero REC light */
+	--accent: #ffc300; /* warm amber */
+	--rec: #e5332a; /* red hero REC light */
 	--display: 'Barlow Condensed', 'Arial Narrow', sans-serif;
 	--body: 'Inter Variable', system-ui, sans-serif;
 	--pad: clamp(1.25rem, 4vw, 3.5rem);
@@ -103,7 +104,7 @@ p {
 .btn--solid {
 	background: var(--accent);
 	border-color: var(--accent);
-	color: #fff;
+	color: #0b0b0c;
 }
 
 .btn--solid:hover {
