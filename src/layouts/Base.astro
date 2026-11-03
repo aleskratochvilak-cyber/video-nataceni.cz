@@ -257,11 +257,6 @@ const links = [
 			font-size: 0.9rem;
 			letter-spacing: 0.08em;
 		}
-		.mark {
-			font-size: 1.25rem;
-			letter-spacing: 0.03em;
-			gap: 0.4rem;
-		}
 		.bar__end {
 			gap: 0.4rem;
 		}
@@ -271,10 +266,25 @@ const links = [
 			display: none;
 		}
 		.mark {
-			font-size: 1.1rem;
+			letter-spacing: 0.03em;
 		}
 		.bar__phone {
 			font-size: 0.78rem;
+		}
+	}
+	@media (max-width: 340px) {
+		.bar {
+			gap: 0.3rem;
+		}
+		.bar__phone {
+			font-size: 0.7rem;
+			letter-spacing: 0;
+		}
+		.lang {
+			padding: 0.1rem 0.3rem;
+		}
+		.burger {
+			width: 2rem;
 		}
 	}
 	.burger {
