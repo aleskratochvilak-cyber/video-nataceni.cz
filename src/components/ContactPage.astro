@@ -160,6 +160,17 @@ const accessKey = import.meta.env.PUBLIC_CONTACT_KEY ?? '';
 		</div>
 	</section>
 
+	<section class="map" id="mapa">
+		<iframe
+			src={`https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s50.0838636,14.6464515!6i15!3m1!1s${lang}!5m1!1s${lang}`}
+			title={lang === 'cs' ? 'Mapa – video-natáčení.cz' : 'Map – video-natáčení.cz'}
+			width="100%"
+			height="450"
+			loading="lazy"
+			allowfullscreen
+			referrerpolicy="no-referrer-when-downgrade"></iframe>
+	</section>
+
 	<script>
 		function init() {
 			const form = document.querySelector<HTMLFormElement>('.cform');
@@ -338,6 +349,17 @@ const accessKey = import.meta.env.PUBLIC_CONTACT_KEY ?? '';
 	.social__link--in:hover,
 	.social__link--in:focus-visible {
 		color: #0a66c2;
+	}
+
+	/* Full-width map under the form */
+	.map {
+		background: var(--bg-raised);
+	}
+	.map iframe {
+		display: block;
+		width: 100%;
+		height: clamp(20rem, 45vw, 32rem);
+		border: 0;
 	}
 
 	/* Right: the form */
