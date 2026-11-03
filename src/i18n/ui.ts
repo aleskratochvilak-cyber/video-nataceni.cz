@@ -38,9 +38,9 @@ interface Content {
 	hero: { kicker: string; line1: string; line2: string; sub: string; cta: string; formats: string[] };
 	services: { heading: string; items: Service[] };
 	clients: { label: string };
-	work: { heading: string; intro: string; play: string; video: string; close: string };
+	work: { heading: string; play: string; video: string; close: string };
 	about: { heading: string; lead: string; paragraphs: string[]; trainingTitle: string; training: string };
-	contact: { heading: string; lead: string; phone: string; email: string; area: string; areaValue: string; cta: string };
+	contact: { heading: string; lead: string; phone: string; email: string; area: string; areaValue: string };
 	contactPage: {
 		metaTitle: string; metaDescription: string; eyebrow: string; heading: string; lead: string;
 		name: string; namePh: string; email: string; emailPh: string; phone: string; phoneOptional: string; phonePh: string;
@@ -104,7 +104,6 @@ export const content: Record<Lang, Content> = {
 		clients: { label: 'Klienti' },
 		work: {
 			heading: 'Tvorba',
-			intro: 'Výběr z posledních projektů.',
 			play: 'Přehrát',
 			video: 'Ukázka',
 			close: 'Zavřít video',
@@ -128,7 +127,6 @@ export const content: Record<Lang, Content> = {
 			email: 'E-mail',
 			area: 'Působnost',
 			areaValue: 'Celá ČR',
-			cta: 'Chci nezávaznou kalkulaci',
 		},
 		contactPage: {
 			metaTitle: 'Nezávazná poptávka – video-natáčení',
@@ -212,7 +210,6 @@ export const content: Record<Lang, Content> = {
 		clients: { label: 'Clients' },
 		work: {
 			heading: 'Work',
-			intro: 'A selection of recent projects.',
 			play: 'Play',
 			video: 'Sample',
 			close: 'Close video',
@@ -236,7 +233,6 @@ export const content: Record<Lang, Content> = {
 			email: 'E-mail',
 			area: 'Coverage',
 			areaValue: 'All of Czechia',
-			cta: 'Request a free quote',
 		},
 		contactPage: {
 			metaTitle: 'Free quote request – video-natáčení',
