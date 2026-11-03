@@ -15,11 +15,11 @@ const accessKey = import.meta.env.PUBLIC_CONTACT_KEY ?? '';
 ---
 
 <Base lang={lang} title={t.metaTitle} description={t.metaDescription} alt={paths.contact} cta={false}>
-	<section class="cp gate">
+	<section class="cp">
 		<div class="cp__glow" aria-hidden="true"></div>
 		<div class="cp__grain" aria-hidden="true"></div>
 
-		<div class="wrap cp__grid">
+		<div class="wrap cp__grid gate">
 			<div class="cp__info">
 				<p class="eyebrow">{t.eyebrow}</p>
 				<h1 class="cp__title">{t.heading}</h1>
