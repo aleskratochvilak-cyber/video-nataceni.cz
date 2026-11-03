@@ -162,6 +162,7 @@ const accessKey = import.meta.env.PUBLIC_CONTACT_KEY ?? '';
 
 	<section class="map" id="mapa">
 		<div class="wrap">
+			<h2 class="map__title">{lang === 'cs' ? 'Kde nás najdete' : 'Where to find us'}</h2>
 			<iframe
 				src={`https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2560.1294272996015!2d14.6438766!3d50.0838636!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470bf32d325414e1%3A0xce01fd2b59baf749!2swww.Video-Nataceni.cz!5e0!3m2!1s${lang}!2scz!4v1793714387516!5m2!1s${lang}!2scz`}
 				title={lang === 'cs' ? 'Mapa – video-natáčení.cz' : 'Map – video-natáčení.cz'}
@@ -355,7 +356,11 @@ const accessKey = import.meta.env.PUBLIC_CONTACT_KEY ?? '';
 
 	/* Map under the form, in the same width as the content above */
 	.map {
-		padding-block: 0 clamp(3rem, 6vw, 5rem);
+		padding-block: clamp(3rem, 7vw, 6rem) clamp(3rem, 6vw, 5rem);
+	}
+	.map__title {
+		margin-bottom: clamp(1.2rem, 3vw, 2rem);
+		font-size: clamp(2rem, 5vw, 3.5rem);
 	}
 	.map iframe {
 		display: block;
