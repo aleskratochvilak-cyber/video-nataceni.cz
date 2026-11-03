@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import { ClientRouter } from 'astro:transitions';
 import barlow600 from '@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2?url';
 import barlow600ext from '@fontsource/barlow-condensed/files/barlow-condensed-latin-ext-600-normal.woff2?url';
 import barlow700 from '@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2?url';
@@ -61,7 +60,6 @@ const links = [
 			})();
 		</script>
 		{fonts.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
-		<ClientRouter />
 		<title>{title ?? c.meta.title}</title>
 		<meta name="description" content={description ?? c.meta.description} />
 		<meta property="og:title" content={title ?? c.meta.title} />
@@ -76,12 +74,12 @@ const links = [
 		}
 	</head>
 	<body>
-		<header class="bar" transition:name="header" transition:animate="none">
+		<header class="bar">
 			<a href={home} class="mark" aria-label="video-natáčení.cz">
 				<span class="mark__dot"></span>video<span class="mark__sep">-</span>natáčení
 			</a>
 			<div class="bar__end">
-				{cta && <a class="btn btn--solid bar__cta" href={paths.contact[lang]} data-astro-reload>{c.hero.cta}</a>}
+				{cta && <a class="btn btn--solid bar__cta" href={paths.contact[lang]}>{c.hero.cta}</a>}
 				{
 					other.map((l) => (
 						<a href={alt[l]} hreflang={l} lang={l} class="lang">
@@ -105,7 +103,7 @@ const links = [
 
 
 		<script>
-			// Runs on first load and after every client-side navigation (language switch)
+			// Runs once per page load
 			let closeMenu = () => {};
 
 			function init() {
@@ -150,11 +148,7 @@ const links = [
 			}
 
 			document.addEventListener('keydown', (e) => e.key === 'Escape' && closeMenu());
-			// The swapped-in <html> doesn't carry the classes the inline script added
-			document.addEventListener('astro:after-swap', () =>
-				document.documentElement.classList.add('js', 'fonts-ready'),
-			);
-			document.addEventListener('astro:page-load', init);
+			init();
 		</script>
 	</body>
 </html>
