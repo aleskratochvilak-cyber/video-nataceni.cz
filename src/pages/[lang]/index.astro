@@ -1,4 +1,5 @@
 ---
+import SocialLinks from '../../components/SocialLinks.astro';
 import Base from '../../layouts/Base.astro';
 import { projects } from '../../data/projects';
 import { clients } from '../../data/clients';
@@ -165,6 +166,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 					<dd>{c.contact.areaValue}</dd>
 				</div>
 			</dl>
+			<SocialLinks />
 		</div>
 	</section>
 
