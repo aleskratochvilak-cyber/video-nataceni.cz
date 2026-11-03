@@ -31,7 +31,7 @@ export const projectSections: ProjectSection[] = [
 		videos: ['bJ5k_tBmGE0', '6RrWNdgY8LU', 'nPUO2rg4I4s'],
 	},
 	{
-		title: { cs: 'Ostatní', en: 'Other' },
+		title: { cs: 'Výběr z posledních projektů', en: 'A selection of recent projects' },
 		videos: [
 			'259ocAg6GoI',
 			'dW1FZ62HjT8',
