@@ -226,11 +226,6 @@ const links = [
 	.bar__phone:hover {
 		color: var(--accent);
 	}
-	@media (max-width: 1000px) {
-		.bar__phone {
-			display: none;
-		}
-	}
 	.bar__end {
 		margin-left: auto;
 		display: flex;
@@ -240,6 +235,47 @@ const links = [
 	.lang {
 		border: 1px solid var(--line);
 		padding: 0.15rem 0.6rem;
+	}
+	/* Phones: smaller logo and number so all three fit in one row */
+	@media (max-width: 700px) {
+		.bar {
+			gap: 0.6rem;
+		}
+		/* In the flow (not centered on the page) so it can never overlap the logo or the buttons */
+		.bar__phone {
+			position: static;
+			transform: none;
+			margin-inline: auto;
+			font-size: 0.85rem;
+			letter-spacing: 0.02em;
+		}
+		.bar__end {
+			margin-left: 0;
+		}
+		.lang {
+			padding: 0.1rem 0.4rem;
+			font-size: 0.9rem;
+			letter-spacing: 0.08em;
+		}
+		.mark {
+			font-size: 1.05rem;
+			letter-spacing: 0.04em;
+			gap: 0.4rem;
+		}
+		.bar__end {
+			gap: 0.4rem;
+		}
+	}
+	@media (max-width: 380px) {
+		.mark__dot {
+			display: none;
+		}
+		.mark {
+			font-size: 0.95rem;
+		}
+		.bar__phone {
+			font-size: 0.78rem;
+		}
 	}
 	.burger {
 		display: block;
