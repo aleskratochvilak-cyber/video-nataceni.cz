@@ -1,7 +1,7 @@
 ---
 import SocialLinks from '../../components/SocialLinks.astro';
 import Base from '../../layouts/Base.astro';
-import { projects } from '../../data/projects';
+import { projectSections } from '../../data/projects';
 import { clients } from '../../data/clients';
 import { content, contact, langPaths, paths, withBase, type Lang } from '../../i18n/ui';
 
@@ -81,30 +81,35 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 			<div class="work__head reveal">
 				<h2 class="h2">{c.work.heading}</h2>
 			</div>
-			<ul class="grid">
-				{
-					projects.map((id, i) => (
-						<li class="reveal">
-							<button
-								class="tile"
-								type="button"
-								data-yt={id}
-								aria-label={`${c.work.play}: ${c.work.video} ${num(i)}`}
-							>
-								<img
-									src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
-									alt=""
-									loading="lazy"
-									width="480"
-									height="360"
-								/>
-								<span class="tile__n">{num(i)}</span>
-								<span class="tile__play" aria-hidden="true" />
-							</button>
-						</li>
-					))
-				}
-			</ul>
+			{
+				projectSections.map((sec) => (
+					<div class="work__group">
+						<h3 class="work__title reveal">{sec.title[lang]}</h3>
+						<ul class="grid">
+							{sec.videos.map((id, i) => (
+								<li class="reveal">
+									<button
+										class="tile"
+										type="button"
+										data-yt={id}
+										aria-label={`${c.work.play}: ${sec.title[lang]} ${num(i)}`}
+									>
+										<img
+											src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+											alt=""
+											loading="lazy"
+											width="480"
+											height="360"
+										/>
+										<span class="tile__n">{num(i)}</span>
+										<span class="tile__play" aria-hidden="true" />
+									</button>
+								</li>
+							))}
+						</ul>
+					</div>
+				))
+			}
 		</div>
 	</section>
 
@@ -481,6 +486,18 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 	}
 	.work__head .h2 {
 		margin-bottom: 2rem;
+	}
+	.work__group {
+		margin-top: clamp(2.5rem, 6vw, 4rem);
+	}
+	.work__head + .work__group {
+		margin-top: 0;
+	}
+	.work__title {
+		margin-bottom: 1.2rem;
+		font-size: clamp(1.4rem, 3vw, 2rem);
+		letter-spacing: 0.08em;
+		color: var(--accent);
 	}
 	.grid {
 		list-style: none;
