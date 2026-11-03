@@ -81,7 +81,7 @@ const links = [
 				<span class="mark__dot"></span>video<span class="mark__sep">-</span>natáčení
 			</a>
 			<div class="bar__end">
-				{cta && <a class="btn btn--solid bar__cta" href={paths.contact[lang]}>{c.hero.cta}</a>}
+				{cta && <a class="btn btn--solid bar__cta" href={paths.contact[lang]} data-astro-reload>{c.hero.cta}</a>}
 				{
 					other.map((l) => (
 						<a href={alt[l]} hreflang={l} lang={l} class="lang">

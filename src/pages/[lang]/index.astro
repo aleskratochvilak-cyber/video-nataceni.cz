@@ -39,7 +39,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 				<span class="hero__alt">{c.hero.line2}</span>
 			</h1>
 			<p class="hero__sub">{c.hero.sub}</p>
-			<a class="btn btn--solid hero__cta-main" href={paths.contact[lang]}>{c.hero.cta}</a>
+			<a class="btn btn--solid hero__cta-main" href={paths.contact[lang]} data-astro-reload>{c.hero.cta}</a>
 		</div>
 		<div class="wrap hero__rail">
 			<ul class="formats">
@@ -166,7 +166,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 					<dd>{c.contact.areaValue}</dd>
 				</div>
 			</dl>
-			<a class="btn btn--solid reveal" href={paths.contact[lang]}>{c.contact.cta}</a>
+			<a class="btn btn--solid reveal" href={paths.contact[lang]} data-astro-reload>{c.contact.cta}</a>
 		</div>
 	</section>
 
