@@ -161,14 +161,16 @@ const accessKey = import.meta.env.PUBLIC_CONTACT_KEY ?? '';
 	</section>
 
 	<section class="map" id="mapa">
-		<iframe
-			src={`https://www.google.com/maps/embed?origin=mfe&pb=!1m3!2m1!1s50.0838636,14.6464515!6i15!3m1!1s${lang}!5m1!1s${lang}`}
-			title={lang === 'cs' ? 'Mapa – video-natáčení.cz' : 'Map – video-natáčení.cz'}
-			width="100%"
-			height="450"
-			loading="lazy"
-			allowfullscreen
-			referrerpolicy="no-referrer-when-downgrade"></iframe>
+		<div class="wrap">
+			<iframe
+				src={`https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2560.1294272996015!2d14.6438766!3d50.0838636!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470bf32d325414e1%3A0xce01fd2b59baf749!2swww.Video-Nataceni.cz!5e0!3m2!1s${lang}!2scz!4v1793714387516!5m2!1s${lang}!2scz`}
+				title={lang === 'cs' ? 'Mapa – video-natáčení.cz' : 'Map – video-natáčení.cz'}
+				width="600"
+				height="450"
+				loading="lazy"
+				allowfullscreen
+				referrerpolicy="strict-origin-when-cross-origin"></iframe>
+		</div>
 	</section>
 
 	<script>
@@ -351,14 +353,14 @@ const accessKey = import.meta.env.PUBLIC_CONTACT_KEY ?? '';
 		color: #0a66c2;
 	}
 
-	/* Full-width map under the form */
+	/* Map under the form, in the same width as the content above */
 	.map {
-		background: var(--bg-raised);
+		padding-block: 0 clamp(3rem, 6vw, 5rem);
 	}
 	.map iframe {
 		display: block;
 		width: 100%;
-		height: clamp(20rem, 45vw, 32rem);
+		height: clamp(16rem, 32vw, 24rem);
 		border: 0;
 	}
 
