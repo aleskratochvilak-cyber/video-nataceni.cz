@@ -153,9 +153,16 @@ p {
 	opacity: 0;
 }
 
-/* Language-switch cross-fade (the header is excluded via transition:animate="none") */
+/* Page transitions. The outgoing page is a still snapshot (the hero video cannot keep
+   playing inside it), so it fades out quickly and the new page fades in on its own.
+   The header is excluded via transition:animate="none". */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-	animation-duration: 0.7s;
 	animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+::view-transition-old(root) {
+	animation-duration: 0.2s;
+}
+::view-transition-new(root) {
+	animation-duration: 0.5s;
 }
