@@ -6,7 +6,7 @@ import barlow700 from '@fontsource/barlow-condensed/files/barlow-condensed-latin
 import barlow700ext from '@fontsource/barlow-condensed/files/barlow-condensed-latin-ext-700-normal.woff2?url';
 import inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import interExt from '@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2?url';
-import { content, languages, paths, withBase, type Lang } from '../i18n/ui';
+import { content, contact, languages, paths, withBase, type Lang } from '../i18n/ui';
 
 interface Props {
 	lang: Lang;
@@ -78,6 +78,7 @@ const links = [
 			<a href={home} class="mark" aria-label="video-natáčení.cz">
 				<span class="mark__dot"></span>video<span class="mark__sep">-</span>natáčení
 			</a>
+			<a class="bar__phone" href={contact.phoneHref}>{contact.phone}</a>
 			<div class="bar__end">
 				{cta && <a class="btn btn--solid bar__cta" href={paths.contact[lang]}>{c.hero.cta}</a>}
 				{
@@ -207,6 +208,26 @@ const links = [
 	/* No room beside the logo on phones: the hero shows the button instead */
 	@media (max-width: 700px) {
 		.bar__cta {
+			display: none;
+		}
+	}
+	/* Centered between the logo and the right-hand group; hidden where there's no room */
+	.bar__phone {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		font-family: var(--display);
+		font-weight: 600;
+		font-size: 1.15rem;
+		letter-spacing: 0.1em;
+		white-space: nowrap;
+		transition: color 0.25s;
+	}
+	.bar__phone:hover {
+		color: var(--accent);
+	}
+	@media (max-width: 1000px) {
+		.bar__phone {
 			display: none;
 		}
 	}
