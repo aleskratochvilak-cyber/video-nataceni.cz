@@ -31,6 +31,10 @@ export const projectSections: ProjectSection[] = [
 		videos: ['bJ5k_tBmGE0', '6RrWNdgY8LU', 'nPUO2rg4I4s'],
 	},
 	{
+		title: { cs: 'Hudební klipy', en: 'Music videos' },
+		videos: ['qhhKhz2Cu_A'],
+	},
+	{
 		title: { cs: 'Výběr z posledních projektů', en: 'A selection of recent projects' },
 		videos: [
 			'259ocAg6GoI',
@@ -41,11 +45,6 @@ export const projectSections: ProjectSection[] = [
 			'gNBpqrUidkQ',
 			'EPKq0Ownzks',
 			'w-O5OYjCF9Y',
-			'rwUJUpPTSGs',
-			'KEID_HveeZY',
-			'qhhKhz2Cu_A',
-			'Ku66ZAAH9KA',
-			'X3tjMIwPR0Q',
 		],
 	},
 ];
