@@ -14,10 +14,8 @@ export const withBase = (p: string) => import.meta.env.BASE_URL.replace(/\/$/, '
 export const paths = {
 	home: { cs: withBase('/cs/'), en: withBase('/en/') },
 	contact: { cs: withBase('/cs/kontakt/'), en: withBase('/en/contact/') },
+	gdpr: { cs: withBase('/cs/gdpr/'), en: withBase('/en/gdpr/') },
 } as const satisfies Record<string, Record<Lang, string>>;
-
-/** Existing privacy policy page on the current site */
-export const privacyUrl = 'https://video-nataceni.cz/zasady-ochrany-osobnich-udaju/';
 
 export const contact = {
 	phone: '+420 608 121 114',

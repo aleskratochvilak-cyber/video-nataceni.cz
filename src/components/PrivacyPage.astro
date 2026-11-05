@@ -1,0 +1,160 @@
+---
+import Base from '../layouts/Base.astro';
+import { contact, paths, type Lang } from '../i18n/ui';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+
+// Czech text is the original policy from the previous site; the English text is a translation.
+const copy = {
+	cs: {
+		metaTitle: 'Zásady ochrany osobních údajů – video-natáčení',
+		metaDescription: 'Jak pracujeme s Vašimi osobními údaji podle Obecného nařízení o ochraně osobních údajů (GDPR).',
+		eyebrow: 'Jak pracujeme s Vašimi osobními údaji',
+		heading: 'Zásady ochrany osobních údajů',
+		lead: 'Přečtěte si, jak pracujeme s Vašimi údaji podle Obecného nařízení o ochraně osobních údajů (GDPR).',
+		whoTitle: 'Kdo údaje sbírá?',
+		whoText: 'Vaše osobní údaje sbírá:',
+		contactLabel: 'Kontaktní e-mail',
+		whatTitle: 'Jaké údaje zpracováváme a proč',
+		sections: [
+			{
+				title: 'Kontaktování a poptávka služeb',
+				text: 'Před provedením poptávky sbíráme e-mail na základě Vašeho souhlasu, abychom Vám mohli poskytnout odkaz na náš kontaktní/poptávkový formulář. V tomto formuláři sbíráme jméno, e-mail a telefonní číslo, abychom Vám mohli zodpovědět dotazy týkající se budoucího plnění smlouvy. Osobní údaje sbíráme také za účelem budoucího plnění smlouvy, abychom mohli připravit návrh řešení a cenovou nabídku.',
+			},
+			{
+				title: 'Objednávka služeb',
+				text: 'Z důvodu plnění smlouvy a zákonné povinnosti od Vás sbíráme následující údaje: jméno, e-mail, název firmy, IČO, DIČ a fakturační adresu, abychom mohli řádně dokončit Vaši objednávku a kvůli vystavování a archivaci daňových dokladů.',
+			},
+		],
+	},
+	en: {
+		metaTitle: 'Privacy policy – video-natáčení',
+		metaDescription: 'How we handle your personal data under the General Data Protection Regulation (GDPR).',
+		eyebrow: 'How we handle your personal data',
+		heading: 'Privacy policy',
+		lead: 'Read how we handle your data under the General Data Protection Regulation (GDPR).',
+		whoTitle: 'Who collects the data?',
+		whoText: 'Your personal data is collected by:',
+		contactLabel: 'Contact e-mail',
+		whatTitle: 'What data we process and why',
+		sections: [
+			{
+				title: 'Contacting us and requesting services',
+				text: 'Before you send an enquiry, we collect your e-mail address based on your consent so that we can give you a link to our contact/enquiry form. In this form we collect your name, e-mail address and phone number so that we can answer your questions about a future contract. We also collect personal data for the purpose of a future contract, so that we can prepare a proposal and a price quote.',
+			},
+			{
+				title: 'Ordering services',
+				text: 'To perform the contract and to meet legal obligations, we collect the following data from you: name, e-mail address, company name, company ID (IČO), VAT ID (DIČ) and billing address, so that we can properly complete your order and issue and archive tax documents.',
+			},
+		],
+	},
+}[lang];
+---
+
+<Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} alt={paths.gdpr}>
+	<section class="pp">
+		<div class="pp__glow" aria-hidden="true"></div>
+		<div class="pp__grain" aria-hidden="true"></div>
+
+		<div class="wrap pp__in">
+			<p class="eyebrow">{copy.eyebrow}</p>
+			<h1 class="pp__title">{copy.heading}</h1>
+			<p class="pp__lead">{copy.lead}</p>
+
+			<h2 class="pp__h2">{copy.whoTitle}</h2>
+			<p class="pp__text">{copy.whoText}</p>
+			<p class="pp__who">
+				<strong>Aleš Kratochvíl</strong><br />
+				{copy.contactLabel}: <a href={contact.emailHref}>{contact.email}</a>
+			</p>
+
+			<h2 class="pp__h2">{copy.whatTitle}</h2>
+			{
+				copy.sections.map((sec) => (
+					<>
+						<h3 class="pp__h3">{sec.title}</h3>
+						<p class="pp__text">{sec.text}</p>
+					</>
+				))
+			}
+		</div>
+	</section>
+</Base>
+
+<style>
+	.pp {
+		position: relative;
+		min-height: 100svh;
+		padding-block: clamp(7rem, 14vw, 10rem) clamp(3rem, 8vw, 6rem);
+		overflow: hidden;
+		isolation: isolate;
+	}
+	.pp__glow {
+		position: absolute;
+		inset: -20%;
+		z-index: -2;
+		background:
+			radial-gradient(40% 45% at 85% 15%, rgba(229, 51, 42, 0.2), transparent 70%),
+			radial-gradient(45% 55% at 5% 95%, rgba(120, 24, 20, 0.28), transparent 70%);
+	}
+	.pp__grain {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		opacity: 0.14;
+		mix-blend-mode: overlay;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	}
+	.pp__in {
+		max-width: 52rem;
+		margin-inline: 0;
+		padding-inline: max(var(--pad), calc((100vw - 80rem) / 2 + var(--pad)));
+	}
+	.pp__title {
+		margin-top: 1rem;
+		font-size: clamp(2.6rem, 7vw, 5.5rem);
+		line-height: 0.95;
+	}
+	.pp__lead {
+		max-width: 34rem;
+		margin-top: 1.6rem;
+		color: var(--muted);
+		font-size: 1.1rem;
+		line-height: 1.6;
+	}
+	.pp__h2 {
+		margin-top: clamp(2.5rem, 6vw, 4rem);
+		margin-bottom: 1rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--line);
+		font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+	}
+	.pp__h3 {
+		margin-top: 2rem;
+		margin-bottom: 0.6rem;
+		font-size: 1.15rem;
+		letter-spacing: 0.1em;
+		color: var(--accent);
+	}
+	.pp__text,
+	.pp__who {
+		max-width: 44rem;
+		color: var(--fg);
+		line-height: 1.7;
+		opacity: 0.88;
+	}
+	.pp__who {
+		margin-top: 0.8rem;
+	}
+	.pp__who a {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+		transition: color 0.25s;
+	}
+	.pp__who a:hover {
+		color: var(--accent);
+	}
+</style>

@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import SocialLinks from './SocialLinks.astro';
-import { content, contact, paths, privacyUrl, type Lang } from '../i18n/ui';
+import { content, contact, paths, type Lang } from '../i18n/ui';
 
 interface Props {
 	lang: Lang;
@@ -111,7 +111,7 @@ const accessKey = import.meta.env.PUBLIC_CONTACT_KEY ?? '';
 
 					<p class="terms">
 						{t.consentPre}{' '}
-						<a href={privacyUrl} target="_blank" rel="noopener">{t.consentLink}</a>{t.consentPost}
+						<a href={paths.gdpr[lang]} target="_blank" rel="noopener">{t.consentLink}</a>{t.consentPost}
 					</p>
 
 					<button type="submit" class="btn btn--solid cform__send" data-send={t.send} data-sending={t.sending}>
