@@ -1,0 +1,197 @@
+---
+import { reviews } from '../data/reviews';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+
+const t = {
+	cs: { heading: 'Co říkají klienti', label: 'Recenze klientů', dot: 'Recenze', stars: 'Hodnocení' },
+	en: { heading: 'What our clients say', label: 'Client reviews', dot: 'Review', stars: 'Rating' },
+}[lang];
+---
+
+<section class="section reviews" id="reference">
+	<div class="wrap">
+		<h2 class="h2 reveal">{t.heading}</h2>
+
+		<div class="rv reveal" data-reviews role="group" aria-roledescription="carousel" aria-label={t.label}>
+			<ul class="rv__list">
+				{
+					reviews.map((r, i) => (
+						<li class="rv__item" aria-label={`${i + 1} / ${reviews.length}`}>
+							<p class="rv__stars" role="img" aria-label={`${t.stars}: ${r.stars} / 5`}>
+								{'★'.repeat(r.stars)}
+							</p>
+							<blockquote class="rv__quote">
+								<p>„{r.text}“</p>
+							</blockquote>
+							<p class="rv__name">{r.name}</p>
+						</li>
+					))
+				}
+			</ul>
+			<div class="rv__dots">
+				{
+					reviews.map((_, i) => (
+						<button type="button" class="rv__dot" aria-label={`${t.dot} ${i + 1} / ${reviews.length}`}>
+							<span />
+						</button>
+					))
+				}
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	const INTERVAL = 8000;
+
+	function init() {
+		const root = document.querySelector<HTMLElement>('[data-reviews]');
+		if (!root) return;
+		const items = [...root.querySelectorAll<HTMLElement>('.rv__item')];
+		const dots = [...root.querySelectorAll<HTMLButtonElement>('.rv__dot')];
+		if (items.length < 2) return;
+
+		const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+		let current = Math.floor(Math.random() * items.length);
+		let timer = 0;
+
+		const show = (n: number) => {
+			current = (n + items.length) % items.length;
+			items.forEach((el, i) => {
+				const on = i === current;
+				el.classList.toggle('is-active', on);
+				el.setAttribute('aria-hidden', String(!on));
+				el.toggleAttribute('inert', !on);
+			});
+			dots.forEach((d, i) => d.setAttribute('aria-current', String(i === current)));
+		};
+		const stop = () => clearInterval(timer);
+		const start = () => {
+			stop();
+			if (!reduce) timer = window.setInterval(() => show(current + 1), INTERVAL);
+		};
+
+		dots.forEach((d, i) =>
+			d.addEventListener('click', () => {
+				show(i);
+				start();
+			}),
+		);
+		// Pause while the visitor is reading or using the dots
+		root.addEventListener('mouseenter', stop);
+		root.addEventListener('mouseleave', start);
+		root.addEventListener('focusin', stop);
+		root.addEventListener('focusout', start);
+
+		show(current);
+		start();
+	}
+	init();
+</script>
+
+<style>
+	.reviews {
+		border-top: 1px solid var(--line);
+	}
+	/* Same heading size as the other home-page sections */
+	.h2 {
+		font-size: clamp(2.6rem, 7vw, 5.5rem);
+		margin-bottom: clamp(2rem, 5vw, 3.5rem);
+	}
+	.rv {
+		max-width: 56rem;
+	}
+	/* All reviews sit in the same grid cell, so the section is as tall as the longest one and never jumps */
+	.rv__list {
+		display: grid;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.rv__item {
+		grid-area: 1 / 1;
+		opacity: 0;
+		visibility: hidden;
+		transform: translateY(0.6rem);
+		transition:
+			opacity 0.7s var(--ease),
+			transform 0.7s var(--ease),
+			visibility 0s linear 0.7s;
+	}
+	.rv__item.is-active {
+		opacity: 1;
+		visibility: visible;
+		transform: none;
+		transition-delay: 0s;
+	}
+	.rv__stars {
+		margin: 0 0 1rem;
+		color: var(--accent);
+		font-size: 1.1rem;
+		letter-spacing: 0.15em;
+	}
+	.rv__quote {
+		margin: 0;
+	}
+	.rv__quote p {
+		margin: 0;
+		font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+		line-height: 1.55;
+	}
+	.rv__name {
+		margin: 1.4rem 0 0;
+		font-family: var(--display);
+		font-weight: 600;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		font-size: 1rem;
+		color: var(--accent);
+	}
+	.rv__dots {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.2rem;
+		margin-top: 2rem;
+	}
+	/* Big tap target, small visible dot */
+	.rv__dot {
+		display: grid;
+		place-items: center;
+		width: 1.6rem;
+		height: 1.6rem;
+		padding: 0;
+		background: none;
+		border: 0;
+		cursor: pointer;
+	}
+	.rv__dot span {
+		width: 0.55rem;
+		height: 0.55rem;
+		border-radius: 50%;
+		background: var(--muted);
+		opacity: 0.5;
+		transition:
+			background 0.25s,
+			opacity 0.25s,
+			transform 0.25s;
+	}
+	.rv__dot:hover span {
+		opacity: 1;
+	}
+	.rv__dot[aria-current='true'] span {
+		background: var(--accent);
+		opacity: 1;
+		transform: scale(1.3);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.rv__item {
+			transform: none;
+			transition: none;
+		}
+	}
+</style>

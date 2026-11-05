@@ -1,4 +1,5 @@
 ---
+import Reviews from '../../components/Reviews.astro';
 import SocialLinks from '../../components/SocialLinks.astro';
 import Base from '../../layouts/Base.astro';
 import { projectSections } from '../../data/projects';
@@ -74,6 +75,9 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 			</ol>
 		</div>
 	</section>
+
+	<!-- REVIEWS -->
+	<Reviews lang={lang} />
 
 	<!-- WORK -->
 	<section class="section work" id="tvorba">
