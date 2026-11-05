@@ -1,0 +1,30 @@
+---
+import { paths } from '../i18n/ui';
+
+// "/" has no content of its own: send visitors to the default language straight away.
+// A script redirects instantly (no visible page, dark background in case anything is drawn);
+// the meta refresh covers browsers without JavaScript.
+const target = paths.home.cs;
+---
+
+<!doctype html>
+<html lang="cs">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex" />
+		<meta name="color-scheme" content="dark" />
+		<title>video-natáčení.cz</title>
+		<link rel="canonical" href={new URL(target, Astro.site)} />
+		<style>
+			html {
+				background: #0b0b0c;
+			}
+		</style>
+		<script is:inline define:vars={{ target }}>
+			location.replace(target + location.search + location.hash);
+		</script>
+		<noscript><meta http-equiv="refresh" content={`0;url=${target}`} /></noscript>
+	</head>
+	<body></body>
+</html>
