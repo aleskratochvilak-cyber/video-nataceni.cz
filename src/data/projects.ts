@@ -12,7 +12,7 @@ export const projectSections: ProjectSection[] = [
 	},
 	{
 		title: { cs: 'Eventy', en: 'Events' },
-		videos: ['WR7tUhXTH6c'],
+		videos: ['WR7tUhXTH6c', 'oxQrtq5ykog'],
 	},
 	{
 		title: { cs: 'Sportovní akce', en: 'Sports events' },
