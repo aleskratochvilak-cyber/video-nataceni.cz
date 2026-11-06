@@ -57,7 +57,7 @@ export const content: Record<Lang, Content> = {
 		},
 		nav: { services: 'Služby', work: 'Tvorba', about: 'O nás', contact: 'Kontakt', menu: 'Menu', close: 'Zavřít' },
 		hero: {
-			kicker: 'Kameraman · Videomaker · Producent',
+			kicker: 'Kameraman · Videomaker · Produkce',
 			line1: 'Videa, která',
 			line2: 'vyprávějí příběh.',
 			sub: 'Od prvního záběru po poslední střih. Pomůžeme vaší značce obrazem.',
@@ -162,7 +162,7 @@ export const content: Record<Lang, Content> = {
 		},
 		nav: { services: 'Services', work: 'Work', about: 'About', contact: 'Contact', menu: 'Menu', close: 'Close' },
 		hero: {
-			kicker: 'Cameraman · Videomaker · Producer',
+			kicker: 'Cameraman · Videomaker · Production',
 			line1: 'Videos that',
 			line2: 'tell your story.',
 			sub: 'From the first shot to the final cut, we help your brand through the picture.',
