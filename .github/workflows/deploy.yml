@@ -25,6 +25,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+        env:
+          # Web3Forms public access key (meant for client-side code); messages go to info@video-nataceni.cz
+          PUBLIC_CONTACT_ENDPOINT: https://api.web3forms.com/submit
+          PUBLIC_CONTACT_KEY: a5c114d1-845b-4a4d-90b0-fe6c2a0c91a2
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
