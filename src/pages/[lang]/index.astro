@@ -46,7 +46,9 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 		<div class="wrap hero__rail">
 			<ul class="formats">
 				{
-					projectSections.map((sec) => (
+					projectSections
+						.filter((sec) => !sec.skipInHero)
+						.map((sec) => (
 						<li>
 							<a href={`#${sec.id}`}>{sec.nav?.[lang] ?? sec.title[lang]}</a>
 						</li>

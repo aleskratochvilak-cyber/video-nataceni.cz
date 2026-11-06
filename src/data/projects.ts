@@ -6,6 +6,8 @@ export interface ProjectSection {
 	title: { cs: string; en: string };
 	/** Shorter label for the links in the hero, if different from the title */
 	nav?: { cs: string; en: string };
+	/** Leave this section out of the links in the hero (it still shows in Tvorba) */
+	skipInHero?: boolean;
 	videos: string[];
 }
 
@@ -48,6 +50,7 @@ export const projectSections: ProjectSection[] = [
 	},
 	{
 		id: 'vyber-projektu',
+		skipInHero: true,
 		title: { cs: 'Výběr z posledních projektů', en: 'A selection of recent projects' },
 		videos: [
 			'259ocAg6GoI',
