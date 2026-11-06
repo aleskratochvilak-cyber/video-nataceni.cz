@@ -45,7 +45,13 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 		</div>
 		<div class="wrap hero__rail">
 			<ul class="formats">
-				{c.hero.formats.map((f) => <li>{f}</li>)}
+				{
+					projectSections.map((sec) => (
+						<li>
+							<a href={`#${sec.id}`}>{sec.nav?.[lang] ?? sec.title[lang]}</a>
+						</li>
+					))
+				}
 			</ul>
 			<span class="rec" aria-hidden="true"><i></i>REC <b id="tc">00:00:00:00</b></span>
 		</div>
@@ -87,7 +93,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 			</div>
 			{
 				projectSections.map((sec) => (
-					<div class="work__group">
+					<div class="work__group" id={sec.id}>
 						<h3 class="work__title reveal">{sec.title[lang]}</h3>
 						<ul class="grid">
 							{sec.videos.map((id, i) => (
@@ -381,6 +387,13 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 		text-transform: uppercase;
 		font-size: 0.95rem;
 		color: var(--muted);
+	}
+	.formats a {
+		transition: color 0.25s;
+	}
+	.formats a:hover,
+	.formats a:focus-visible {
+		color: var(--accent);
 	}
 	.rec {
 		display: inline-flex;

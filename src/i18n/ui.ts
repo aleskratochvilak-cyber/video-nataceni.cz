@@ -33,7 +33,7 @@ interface Service {
 interface Content {
 	meta: { title: string; description: string };
 	nav: { services: string; work: string; about: string; contact: string; menu: string; close: string };
-	hero: { kicker: string; line1: string; line2: string; sub: string; cta: string; formats: string[] };
+	hero: { kicker: string; line1: string; line2: string; sub: string; cta: string };
 	services: { heading: string; items: Service[] };
 	clients: { label: string };
 	work: { heading: string; play: string; video: string; close: string };
@@ -62,7 +62,6 @@ export const content: Record<Lang, Content> = {
 			line2: 'vyprávějí příběh.',
 			sub: 'Od prvního záběru po poslední střih. Pomůžeme vaší značce obrazem.',
 			cta: 'Nezávazná poptávka',
-			formats: ['Eventy', 'Firemní videa & konference', 'Videoklipy', 'Svatby'],
 		},
 		services: {
 			heading: 'Služby',
@@ -168,7 +167,6 @@ export const content: Record<Lang, Content> = {
 			line2: 'tell your story.',
 			sub: 'From the first shot to the final cut, we help your brand through the picture.',
 			cta: 'Get a free quote',
-			formats: ['Events', 'Corporate videos & conferences', 'Music videos', 'Weddings'],
 		},
 		services: {
 			heading: 'Services',
