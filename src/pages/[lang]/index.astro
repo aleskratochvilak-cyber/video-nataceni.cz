@@ -139,8 +139,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 						<img
 							src={withBase(`/media/clients/${cl.file}`)}
 							alt={cl.name}
-							class={[cl.soft && 'soft', cl.dim && 'dim', cl.pullLeft && 'pull-left'].filter(Boolean).join(' ') || undefined}
-							style={cl.pullLeft ? `--pull: ${cl.pullLeft}rem` : undefined}
+							class={[cl.soft && 'soft', cl.dim && 'dim'].filter(Boolean).join(' ') || undefined}
 							loading="lazy"
 						/>
 					</li>
@@ -626,10 +625,14 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 		list-style: none;
 		margin-block: 0;
 		padding-block: 0;
-		display: grid;
-		grid-template-columns: repeat(7, minmax(0, 1fr));
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
 		align-items: center;
-		gap: 1.5rem 1rem;
+		/* Same space between every pair of logos: the space that used to sit between logos 2 and 3
+		   (column pitch of the old 7-column grid minus the halves of those two logos), kept at
+		   least 1rem on narrow windows */
+		gap: 1.5rem max(1rem, calc((min(100vw, 80rem) - 2 * clamp(1.25rem, 4vw, 3.5rem) - 6rem) / 7 - 6.56rem));
 	}
 	.clients__list li {
 		height: 5rem;
@@ -667,18 +670,10 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 	.clients__list li:hover img.dim {
 		opacity: 0.65;
 	}
-	/* Wide screens only: nudge toward the logo on the left */
-	@media (min-width: 901px) {
-		.clients__list img.pull-left {
-			transform: translateX(calc(var(--pull, 0rem) * -1));
-		}
-	}
-	/* Narrower screens: wrap in centered rows so a last logo on its own sits in the middle */
+	/* Narrower screens: 3 (then 2) per row, centered so a last logo on its own sits in the middle */
 	@media (max-width: 900px) {
 		.clients__list {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: center;
+			gap: 1.5rem 1rem;
 		}
 		.clients__list li {
 			width: calc((100% - 2rem) / 3);
