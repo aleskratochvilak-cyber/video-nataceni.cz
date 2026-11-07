@@ -139,6 +139,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 						<img
 							src={withBase(`/media/clients/${cl.file}`)}
 							alt={cl.name}
+							class={cl.soft ? 'soft' : undefined}
 							loading="lazy"
 						/>
 					</li>
@@ -648,6 +649,15 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 	}
 	.clients__list li:hover img {
 		opacity: 1;
+	}
+	/* Logos marked soft: a bit smaller, darker grey, and only a mild brightening on hover */
+	.clients__list img.soft {
+		max-width: 7.2rem;
+		max-height: 2.6rem;
+		opacity: 0.45;
+	}
+	.clients__list li:hover img.soft {
+		opacity: 0.65;
 	}
 	@media (max-width: 900px) {
 		.clients__list {
