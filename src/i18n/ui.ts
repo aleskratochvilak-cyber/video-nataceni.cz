@@ -107,15 +107,15 @@ export const content: Record<Lang, Content> = {
 		},
 		about: {
 			heading: 'O nás',
-			lead: 'Sehraný tým kameramanů, střihačů, zvukařů a grafiků s dlouholetou praxí ve videoprodukci.',
+			lead: 'Sehraný tým kameramanů, střihačů, zvukařů a grafiků s dlouholetou praxí ve videoprodukci. Naše práce je zároveň naší vášní.',
 			paragraphs: [
-				'Naše práce je zároveň naší vášní. Zajišťujeme kompletní výrobu reportáží, prezentačních a firemních videí pro web, sociální sítě i televizní vysílání. Součástí služeb je také fotografie, postprodukce a natáčení dronem.',
-				'Díky zkušenostem z televizního a filmového prostředí nabízíme vysoký standard produkce – od eventových videí z konferencí, festivalů a firemních večírků přes promo videa z food festivalů a slavností na hradech až po svatební klipy a videoklipy pro umělce.',
-				'Spolupracujeme s televizními společnostmi i produkčními domy na českém trhu, takže zvládneme velkou firemní akci stejně jako menší soukromý projekt.',
+				'Zajišťujeme kompletní výrobu reportáží, prezentačních a firemních videí pro web, sociální sítě i televizní vysílání. Součástí našich služeb je také profesionální fotografie, postprodukce a natáčení dronem.',
+				'Díky zkušenostem z televizního a filmového prostředí přinášíme vysoký standard produkce. Natočíme pro vás eventy z konferencí, festivalů a firemních večírků, promo videa z food festivalů a slavností na hradech, ale i procítěné svatební klipy a videoklipy pro umělce.',
+				'Spolupracujeme s televizními společnostmi i produkčními domy na českém trhu, takže hravě zvládneme velkou firemní akci stejně jako menší soukromý projekt.',
 			],
 			trainingTitle: 'Mediální trénink',
 			training:
-				'Připravíme vás nebo váš tým na vystupování před kamerou: přirozený projev, zvládání trémy, řeč těla a hlas. Ideální pro mluvčí, manažery, moderátory i lektory.',
+				'Připravíme vás nebo váš tým na vystupování před kamerou. Naučíme vás přirozený projev, zvládání trémy, práci s řečí těla i hlasem. Ideální pro firemní mluvčí, manažery, moderátory i lektory.',
 		},
 		contact: {
 			heading: 'Napište nám',
@@ -160,7 +160,7 @@ export const content: Record<Lang, Content> = {
 			description:
 				'Wedding films, company spots and event coverage that move people and win clients. Cameraman, videomaker, producer.',
 		},
-		nav: { services: 'Services', work: 'Work', about: 'About', contact: 'Contact', menu: 'Menu', close: 'Close' },
+		nav: { services: 'Services', work: 'Work', about: 'About us', contact: 'Contact', menu: 'Menu', close: 'Close' },
 		hero: {
 			kicker: 'Cameraman · Videomaker · Production',
 			line1: 'Videos that',
@@ -211,16 +211,16 @@ export const content: Record<Lang, Content> = {
 			close: 'Close video',
 		},
 		about: {
-			heading: 'About',
-			lead: 'A close-knit team of cameramen, editors, sound engineers and graphic designers with years of video production experience.',
+			heading: 'About us',
+			lead: 'A close-knit team of cameramen, editors, sound engineers and graphic designers with years of experience in video production. Our work is also our passion.',
 			paragraphs: [
-				'Our work is also our passion. We handle complete production of reportage, presentation and corporate videos for the web, social media and television. We also offer photography, post-production and drone filming.',
-				'With a background in television and film, we deliver a high standard of production, from event videos of conferences, festivals and company parties, through promo videos from food festivals and castle celebrations, to wedding films and music videos for artists.',
-				'We work with television companies and production houses on the Czech market, so we can handle a large corporate event as well as a smaller private project.',
+				'We provide complete production of reportages, presentation and corporate videos for the web, social media and television broadcast. Our services also include professional photography, post-production and drone filming.',
+				'Thanks to our experience in television and film, we deliver a high standard of production. We will film events for you from conferences, festivals and company parties, promo videos from food festivals and celebrations at castles, as well as heartfelt wedding films and music videos for artists.',
+				'We work with television companies and production houses on the Czech market, so we can easily handle a large corporate event as well as a smaller private project.',
 			],
 			trainingTitle: 'Media training',
 			training:
-				'We prepare you or your team to appear on camera: natural delivery, handling nerves, body language and voice. Ideal for spokespeople, managers, presenters and lecturers.',
+				'We will prepare you or your team for appearing in front of the camera. We will teach you a natural delivery, how to handle nerves, and how to work with body language and voice. Ideal for company spokespeople, managers, presenters and lecturers.',
 		},
 		contact: {
 			heading: 'Get in touch',
