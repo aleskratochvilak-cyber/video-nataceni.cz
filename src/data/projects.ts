@@ -26,7 +26,7 @@ export const projectSections: ProjectSection[] = [
 	{
 		id: 'sportovni-akce',
 		title: { cs: 'Sportovní akce', en: 'Sports events' },
-		videos: ['oZxsMxNDnyQ'],
+		videos: ['oZxsMxNDnyQ', '_VfmD4miTNg'],
 	},
 	{
 		id: 'konference',
