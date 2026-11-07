@@ -140,6 +140,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 							src={withBase(`/media/clients/${cl.file}`)}
 							alt={cl.name}
 							class={[cl.soft && 'soft', cl.dim && 'dim', cl.pullLeft && 'pull-left'].filter(Boolean).join(' ') || undefined}
+							style={cl.pullLeft ? `--pull: ${cl.pullLeft}rem` : undefined}
 							loading="lazy"
 						/>
 					</li>
@@ -669,7 +670,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 	/* Wide screens only: nudge toward the logo on the left */
 	@media (min-width: 901px) {
 		.clients__list img.pull-left {
-			transform: translateX(-3.2rem);
+			transform: translateX(calc(var(--pull, 0rem) * -1));
 		}
 	}
 	/* Narrower screens: wrap in centered rows so a last logo on its own sits in the middle */
