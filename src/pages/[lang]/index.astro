@@ -139,7 +139,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 						<img
 							src={withBase(`/media/clients/${cl.file}`)}
 							alt={cl.name}
-							class={cl.soft ? 'soft' : undefined}
+							class={[cl.soft && 'soft', cl.dim && 'dim', cl.pullLeft && 'pull-left'].filter(Boolean).join(' ') || undefined}
 							loading="lazy"
 						/>
 					</li>
@@ -658,6 +658,19 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 	}
 	.clients__list li:hover img.soft {
 		opacity: 0.65;
+	}
+	/* Dimmer only (keeps the normal size) */
+	.clients__list img.dim {
+		opacity: 0.45;
+	}
+	.clients__list li:hover img.dim {
+		opacity: 0.65;
+	}
+	/* Wide screens only: nudge toward the logo on the left */
+	@media (min-width: 901px) {
+		.clients__list img.pull-left {
+			transform: translateX(-3.2rem);
+		}
 	}
 	/* Narrower screens: wrap in centered rows so a last logo on its own sits in the middle */
 	@media (max-width: 900px) {
