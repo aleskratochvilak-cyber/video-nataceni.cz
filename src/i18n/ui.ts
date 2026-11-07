@@ -93,7 +93,7 @@ export const content: Record<Lang, Content> = {
 				},
 				{
 					title: 'Videa na sociální sítě & Reels',
-					text: 'Tvořím poutavá Reels, TikTok videa a Shorts, která zaujmou během prvních sekund. Vertikální formáty z eventů i cílené reklamní spoty přivedou nové zákazníky a zvýší dosah.',
+					text: 'Tvoříme poutavá Reels, TikTok videa a Shorts, která zaujmou během prvních sekund. Vertikální formáty z eventů i cílené reklamní spoty přivedou nové zákazníky a zvýší dosah.',
 					tags: ['Instagram Reels & TikTok', 'eventy a akce', 'marketingová videa'],
 				},
 			],
@@ -198,7 +198,7 @@ export const content: Record<Lang, Content> = {
 				},
 				{
 					title: 'Social media videos & Reels',
-					text: 'I create engaging Reels, TikTok videos and Shorts that grab attention within the first seconds. Vertical formats from events and targeted ad spots bring new customers and increase reach.',
+					text: 'We create engaging Reels, TikTok videos and Shorts that grab attention within the first seconds. Vertical formats from events and targeted ad spots bring new customers and increase reach.',
 					tags: ['Instagram Reels & TikTok', 'events and shows', 'marketing videos'],
 				},
 			],
