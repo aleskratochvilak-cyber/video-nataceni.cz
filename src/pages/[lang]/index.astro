@@ -626,7 +626,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 		margin-block: 0;
 		padding-block: 0;
 		display: grid;
-		grid-template-columns: repeat(6, minmax(0, 1fr));
+		grid-template-columns: repeat(7, minmax(0, 1fr));
 		align-items: center;
 		gap: 1.5rem 1rem;
 	}
@@ -659,14 +659,20 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 	.clients__list li:hover img.soft {
 		opacity: 0.65;
 	}
+	/* Narrower screens: wrap in centered rows so a last logo on its own sits in the middle */
 	@media (max-width: 900px) {
 		.clients__list {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+		.clients__list li {
+			width: calc((100% - 2rem) / 3);
 		}
 	}
 	@media (max-width: 480px) {
-		.clients__list {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
+		.clients__list li {
+			width: calc((100% - 1rem) / 2);
 		}
 	}
 

@@ -7,4 +7,5 @@ export const clients: { name: string; file: string; soft?: boolean }[] = [
 	{ name: 'Nova', file: 'nova.svg', soft: true },
 	{ name: 'AMI Communications', file: 'ami.png' },
 	{ name: 'Prima', file: 'prima.png' },
+	{ name: 'Praha 10', file: 'praha10.png' },
 ];
