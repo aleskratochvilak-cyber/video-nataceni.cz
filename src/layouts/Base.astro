@@ -17,8 +17,11 @@ interface Props {
 	alt?: Record<Lang, string>;
 	/** Show the header "free quote" button (hidden on the contact page itself) */
 	cta?: boolean;
+	/** Keep the page out of search results (the 404 page) */
+	noindex?: boolean;
 }
-const { lang, title, description, alt = paths.home, cta = true } = Astro.props;
+const { lang, title, description, alt = paths.home, cta = true, noindex = false } = Astro.props;
+const absolute = (path: string) => new URL(path, Astro.site).href;
 const fonts = [barlow700, barlow700ext, barlow600, barlow600ext, inter, interExt];
 const c = content[lang];
 const other = (Object.keys(languages) as Lang[]).filter((l) => l !== lang);
@@ -68,10 +71,19 @@ const links = [
 		<meta name="theme-color" content="#0b0b0c" />
 		<link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
 		{
-			Object.keys(languages).map((l) => (
-				<link rel="alternate" hreflang={l} href={alt[l as Lang]} />
-			))
+			noindex ? (
+				<meta name="robots" content="noindex" />
+			) : (
+				<>
+					<link rel="canonical" href={absolute(Astro.url.pathname)} />
+					{Object.keys(languages).map((l) => (
+						<link rel="alternate" hreflang={l} href={absolute(alt[l as Lang])} />
+					))}
+					<link rel="alternate" hreflang="x-default" href={absolute(alt.cs)} />
+				</>
+			)
 		}
+		<link rel="sitemap" type="application/xml" href={withBase('/sitemap.xml')} />
 	</head>
 	<body>
 		<header class="bar">

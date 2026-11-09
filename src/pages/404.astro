@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import { paths } from '../i18n/ui';
+---
+
+<Base lang="cs" title="Stránka nenalezena – video-natáčení" noindex>
+	<section class="nf">
+		<div class="nf__glow" aria-hidden="true"></div>
+		<div class="wrap nf__in">
+			<p class="eyebrow">404</p>
+			<h1 class="nf__title">Stránka nenalezena</h1>
+			<p class="nf__text">Stránka, kterou hledáte, neexistuje nebo byla přesunuta.</p>
+			<a class="btn btn--solid" href={paths.home.cs}>Zpět na úvod</a>
+
+			<p class="nf__en">
+				Page not found. <a href={paths.home.en}>Back to the home page</a>
+			</p>
+		</div>
+	</section>
+</Base>
+
+<style>
+	.nf {
+		position: relative;
+		min-height: 100svh;
+		display: grid;
+		align-items: center;
+		padding-block: clamp(7rem, 14vw, 10rem) clamp(3rem, 8vw, 6rem);
+		overflow: hidden;
+		isolation: isolate;
+	}
+	.nf__glow {
+		position: absolute;
+		inset: -20%;
+		z-index: -1;
+		background:
+			radial-gradient(40% 45% at 85% 15%, rgba(229, 51, 42, 0.2), transparent 70%),
+			radial-gradient(45% 55% at 5% 95%, rgba(120, 24, 20, 0.28), transparent 70%);
+	}
+	.nf__in {
+		width: 100%;
+	}
+	.nf__title {
+		margin-top: 1rem;
+		font-size: clamp(2.6rem, 8vw, 6rem);
+		line-height: 0.95;
+	}
+	.nf__text {
+		max-width: 30rem;
+		margin: 1.6rem 0 2rem;
+		color: var(--muted);
+		font-size: 1.1rem;
+		line-height: 1.6;
+	}
+	.nf__en {
+		margin-top: 2.2rem;
+		color: var(--muted);
+	}
+	.nf__en a {
+		color: var(--fg);
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+		transition: color 0.25s;
+	}
+	.nf__en a:hover {
+		color: var(--accent);
+	}
+</style>
