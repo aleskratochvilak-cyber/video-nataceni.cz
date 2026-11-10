@@ -48,7 +48,7 @@ export const reviews: Review[] = [
 		stars: 5,
 	},
 	{
-		text: 'Jsme velice spokojeni. Město Nový Knín.',
+		text: 'Komunikace ★★★★★\nProfesionalita ★★★★★\nCena ★★★★★\nCELKEM ★★★★★\nJsme velice spokojeni. Město Nový Knín.',
 		name: 'Radek H.',
 		stars: 5,
 	},
