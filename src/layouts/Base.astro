@@ -249,6 +249,23 @@ const links = [
 		border: 1px solid var(--line);
 		padding: 0.15rem 0.6rem;
 	}
+	/* Mid-size windows: the page-centered number would touch the button, so keep it in the flow between them */
+	@media (max-width: 1100px) {
+		.bar {
+			gap: 1rem;
+		}
+		.bar__phone {
+			position: static;
+			transform: none;
+			margin-inline: auto;
+			font-size: 1.05rem;
+			letter-spacing: 0.06em;
+		}
+		.bar__end {
+			margin-left: 0;
+			gap: 0.9rem;
+		}
+	}
 	/* Phones: smaller logo and number so all three fit in one row */
 	@media (max-width: 700px) {
 		.bar {
