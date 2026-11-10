@@ -15,6 +15,7 @@ export const paths = {
 	home: { cs: withBase('/cs/'), en: withBase('/en/') },
 	contact: { cs: withBase('/cs/kontakt/'), en: withBase('/en/contact/') },
 	gdpr: { cs: withBase('/cs/gdpr/'), en: withBase('/en/gdpr/') },
+	faq: { cs: withBase('/cs/faq/'), en: withBase('/en/faq/') },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export const contact = {
@@ -32,7 +33,7 @@ interface Service {
 
 interface Content {
 	meta: { title: string; description: string };
-	nav: { services: string; work: string; about: string; contact: string; menu: string; close: string };
+	nav: { services: string; work: string; about: string; faq: string; contact: string; menu: string; close: string };
 	hero: { kicker: string; line1: string; line2: string; sub: string; cta: string };
 	services: { heading: string; items: Service[] };
 	clients: { label: string };
@@ -55,7 +56,7 @@ export const content: Record<Lang, Content> = {
 			description:
 				'Tvoříme svatební videa, firemní spoty a eventové záznamy, které zaujmou emoce i klienty. Kameraman, videomaker, producent.',
 		},
-		nav: { services: 'Služby', work: 'Tvorba', about: 'O nás', contact: 'Kontakt', menu: 'Menu', close: 'Zavřít' },
+		nav: { services: 'Služby', work: 'Tvorba', about: 'O nás', faq: 'FAQ', contact: 'Kontakt', menu: 'Menu', close: 'Zavřít' },
 		hero: {
 			kicker: 'Kameraman · Videomaker · Produkce',
 			line1: 'Videa, která',
@@ -160,7 +161,7 @@ export const content: Record<Lang, Content> = {
 			description:
 				'Wedding films, company spots and event coverage that move people and win clients. Cameraman, videomaker, producer.',
 		},
-		nav: { services: 'Services', work: 'Work', about: 'About us', contact: 'Contact', menu: 'Menu', close: 'Close' },
+		nav: { services: 'Services', work: 'Work', about: 'About us', faq: 'FAQ', contact: 'Contact', menu: 'Menu', close: 'Close' },
 		hero: {
 			kicker: 'Cameraman · Videomaker · Production',
 			line1: 'Videos that',

@@ -1,0 +1,161 @@
+---
+import Base from '../layouts/Base.astro';
+import { paths, type Lang } from '../i18n/ui';
+
+interface Props {
+	lang: Lang;
+}
+const { lang } = Astro.props;
+
+// Czech text is exactly as supplied; the English text is a translation.
+const copy = {
+	cs: {
+		metaTitle: 'Časté dotazy (FAQ) – video-natáčení',
+		metaDescription:
+			'Odpovědi na časté otázky: aftermovie nebo Reel, cena natáčení, lokality, dron a více kamer, typy videí a proč profesionální produkce.',
+		heading: 'Často kladené otázky (FAQ)',
+		items: [
+			{
+				q: 'Je lepší tradiční aftermovie z akce, nebo stačí krátký Reel?',
+				a: 'Z menší akce obvykle stačí dynamický Reel, který je ideální pro rychlý zásah na sociálních sítích. Pokud ale pořádáte akci, které přikládáte větší prestiž (např. městské slavnosti, výročí firmy či festivaly), kvalitní aftermovie působí jako reprezentativní a důvěryhodná vizitka pro občany, zákazníky i obchodní partnery.',
+			},
+			{
+				q: 'Kolik stojí natáčení videa z eventu, konference nebo hudební klip?',
+				a: 'Cena se vždy odvíjí od přesného rozsahu natáčení. Pro orientaci: kompletní realizace jednodenního natáčení na jednu kameru včetně veškeré postprodukce (střih, licencovaná hudba, barevná korekce) začíná na 10 000 Kč. U natáčení sérií krátkých Reels nebo fotografických služeb nastavujeme ceny individuálně. Vždy hledáme cestu, aby výsledná tvorba přesně odpovídala vašemu rozpočtu i cílům.',
+			},
+			{
+				q: 'Kde všude natáčíte a fotíte?',
+				a: 'Nejčastěji realizujeme firemní videa a natáčení městských slavností v Praze a Středočeském kraji (např. Český Brod, Kolín, Nymburk), ale cesta kamkoliv po ČR pro nás není překážkou. Pravidelně jezdíme do měst jako Hradec Králové, Pardubice, Liberec, Plzeň nebo na Vysočinu. Lokality mimo Prahu nás baví – stačí se domluvit.',
+			},
+			{
+				q: 'Natáčíte i dronem nebo na více kamer?',
+				a: 'Práci s dronem i vícešachtové natáčení běžně nabízíme, ale k našim klientům jsme vždy upřímní: dron není nutný všude. Zatímco u prezentace budov, rozvoje obcí nebo architektury je letecký záběr skvělý, u akcí jako vinobraní nebo obecní slavnosti vznikne nejlepší video přímo v centru dění mezi lidmi. Raději se soustředíme na emoce a atmosférické detaily. S volbou techniky vám vždy rádi poradíme podle typu akce.',
+			},
+			{
+				q: 'Co všechno u vás můžeme poptat a jaké typy videí tvoříte?',
+				a: 'Nejčastěji natáčíme městské slavnosti, kulturní eventy a firemní akce. Pro města a městské části dokumentujeme jejich rozvoj, stavební projekty či historické budovy. Tvoříme také videopodcasty, hudební klipy a promo videa pro restaurace či pivovary. Protože nerozumíme jen kameře, ale i marketingu, pomáháme klientům tvořit strategické Reely na sociální sítě. Součástí našich služeb je navíc mediální trénink, díky kterému se lidé před kamerou zbaví stresu a působí zcela přirozeně.',
+			},
+			{
+				q: 'Proč si raději najmout produkci, když si dnes můžeme natočit video na mobil?',
+				a: 'Mobilní telefon je vynikající nástroj pro okamžité příběhy (Stories) ze zákulisí a své klienty v tom plně podporujeme. Pokud však potřebujete vybudovat prestiž, přilákat partnery nebo oslovit nové zákazníky, profesionální produkce přináší zásadní rozdíl. Není to jen o rozlišení kamery – hlavní hodnota spočívá v promyšleném scénáři, práci se světlem, čistém zvuku bez ruchů větrů a správném vedení lidí před kamerou, aby výsledek působil reprezentativně.',
+			},
+		],
+	},
+	en: {
+		metaTitle: 'Frequently asked questions (FAQ) – video-natáčení',
+		metaDescription:
+			'Answers to common questions: aftermovie or Reel, filming prices, locations, drone and multi-camera, types of videos and why professional production.',
+		heading: 'Frequently asked questions (FAQ)',
+		items: [
+			{
+				q: 'Is a traditional event aftermovie better, or is a short Reel enough?',
+				a: 'For a smaller event, a dynamic Reel is usually enough and is ideal for a quick impact on social media. But if you are organising an event you consider more prestigious (for example town festivals, company anniversaries or festivals), a quality aftermovie works as a representative and trustworthy showcase for residents, customers and business partners alike.',
+			},
+			{
+				q: 'How much does filming an event, a conference or a music video cost?',
+				a: 'The price always depends on the exact scope of the shoot. As a guide: a complete one-day, single-camera shoot including all post-production (editing, licensed music, colour grading) starts at CZK 10,000. For series of short Reels or photography services we set prices individually. We always look for a way for the final work to match your budget and goals.',
+			},
+			{
+				q: 'Where do you film and photograph?',
+				a: 'Most often we make corporate videos and film town festivals in Prague and the Central Bohemian Region (e.g. Český Brod, Kolín, Nymburk), but travelling anywhere in the Czech Republic is no obstacle for us. We regularly go to towns such as Hradec Králové, Pardubice, Liberec, Plzeň or the Vysočina region. We enjoy locations outside Prague – just get in touch.',
+			},
+			{
+				q: 'Do you also film with a drone or with multiple cameras?',
+				a: 'We routinely offer drone work and multi-camera filming, but we are always honest with our clients: a drone is not necessary everywhere. While an aerial shot is great for presenting buildings, municipal development or architecture, at events such as a wine harvest or a village festival the best video is made right in the middle of the action, among the people. We prefer to focus on emotion and atmospheric detail. We are always glad to advise you on the choice of equipment according to the type of event.',
+			},
+			{
+				q: 'What can we enquire about, and what types of videos do you make?',
+				a: 'Most often we film town festivals, cultural events and corporate events. For towns and city districts we document their development, construction projects or historic buildings. We also make video podcasts, music videos and promo videos for restaurants or breweries. Because we understand not only the camera but also marketing, we help clients create strategic Reels for social media. Our services also include media training, which helps people lose their stress in front of the camera and appear completely natural.',
+			},
+			{
+				q: 'Why hire a production company when we can shoot a video on a phone today?',
+				a: 'A mobile phone is an excellent tool for instant behind-the-scenes stories (Stories), and we fully support our clients in that. But if you need to build prestige, attract partners or reach new customers, professional production makes a fundamental difference. It is not only about camera resolution – the main value lies in a thought-out script, work with light, clean sound without wind noise and proper guidance of people in front of the camera, so that the result looks representative.',
+			},
+		],
+	},
+}[lang];
+
+const jsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'FAQPage',
+	mainEntity: copy.items.map((i) => ({
+		'@type': 'Question',
+		name: i.q,
+		acceptedAnswer: { '@type': 'Answer', text: i.a },
+	})),
+};
+---
+
+<Base lang={lang} title={copy.metaTitle} description={copy.metaDescription} alt={paths.faq}>
+	<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
+	<section class="pp">
+		<div class="pp__glow" aria-hidden="true"></div>
+		<div class="pp__grain" aria-hidden="true"></div>
+
+		<div class="wrap pp__in">
+			<h1 class="pp__title">{copy.heading}</h1>
+			{
+				copy.items.map((item, i) => (
+					<>
+						<h2 class="pp__h2">
+							<span class="pp__n">{i + 1}.</span> {item.q}
+						</h2>
+						<p class="pp__text">{item.a}</p>
+					</>
+				))
+			}
+		</div>
+	</section>
+</Base>
+
+<style>
+	.pp {
+		position: relative;
+		min-height: 100svh;
+		padding-block: clamp(7rem, 14vw, 10rem) clamp(3rem, 8vw, 6rem);
+		overflow: hidden;
+		isolation: isolate;
+	}
+	.pp__glow {
+		position: absolute;
+		inset: -20%;
+		z-index: -2;
+		background:
+			radial-gradient(40% 45% at 85% 15%, rgba(229, 51, 42, 0.2), transparent 70%),
+			radial-gradient(45% 55% at 5% 95%, rgba(120, 24, 20, 0.28), transparent 70%);
+	}
+	.pp__grain {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		opacity: 0.14;
+		mix-blend-mode: overlay;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	}
+	.pp__in {
+		max-width: 52rem;
+		margin-inline: 0;
+		padding-inline: max(var(--pad), calc((100vw - 80rem) / 2 + var(--pad)));
+	}
+	.pp__title {
+		font-size: clamp(2.2rem, 6vw, 4.5rem);
+		line-height: 0.98;
+	}
+	.pp__h2 {
+		margin-top: clamp(2rem, 5vw, 3rem);
+		margin-bottom: 0.8rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--line);
+		font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+		line-height: 1.2;
+	}
+	.pp__n {
+		color: var(--accent);
+	}
+	.pp__text {
+		max-width: 44rem;
+		color: var(--fg);
+		line-height: 1.7;
+		opacity: 0.88;
+	}
+</style>
