@@ -6,7 +6,7 @@ import barlow700 from '@fontsource/barlow-condensed/files/barlow-condensed-latin
 import barlow700ext from '@fontsource/barlow-condensed/files/barlow-condensed-latin-ext-700-normal.woff2?url';
 import inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import interExt from '@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2?url';
-import { blogPaths, content, contact, languages, paths, withBase, type Lang } from '../i18n/ui';
+import { content, contact, languages, paths, withBase, type Lang } from '../i18n/ui';
 
 interface Props {
 	lang: Lang;
@@ -30,7 +30,7 @@ const links = [
 	{ href: `${home}#sluzby`, label: c.nav.services },
 	{ href: `${home}#tvorba`, label: c.nav.work },
 	{ href: `${home}#o-nas`, label: c.nav.about },
-	...(lang === 'cs' ? [{ href: blogPaths.index, label: 'Blog' }] : []),
+	{ href: paths.blog[lang], label: c.nav.blog },
 	{ href: paths.faq[lang], label: c.nav.faq },
 	{ href: paths.contact[lang], label: c.nav.contact },
 ];

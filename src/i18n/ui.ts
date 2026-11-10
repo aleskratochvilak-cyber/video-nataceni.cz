@@ -16,13 +16,11 @@ export const paths = {
 	contact: { cs: withBase('/cs/kontakt/'), en: withBase('/en/contact/') },
 	gdpr: { cs: withBase('/cs/gdpr/'), en: withBase('/en/gdpr/') },
 	faq: { cs: withBase('/cs/faq/'), en: withBase('/en/faq/') },
+	blog: { cs: withBase('/cs/blog/'), en: withBase('/en/blog/') },
 } as const satisfies Record<string, Record<Lang, string>>;
 
-/** The blog is Czech only: one list page and one page per article (see src/data/posts.ts) */
-export const blogPaths = {
-	index: withBase('/cs/blog/'),
-	post: (slug: string) => withBase(`/cs/blog/${slug}/`),
-};
+/** Address of one blog article (the slug is the same in both languages) */
+export const postPath = (lang: Lang, slug: string) => withBase(`/${lang}/blog/${slug}/`);
 
 export const contact = {
 	phone: '+420 608 121 114',
@@ -39,7 +37,7 @@ interface Service {
 
 interface Content {
 	meta: { title: string; description: string };
-	nav: { services: string; work: string; about: string; faq: string; contact: string; menu: string; close: string };
+	nav: { services: string; work: string; about: string; blog: string; faq: string; contact: string; menu: string; close: string };
 	hero: { kicker: string; line1: string; line2: string; sub: string; cta: string };
 	services: { heading: string; items: Service[] };
 	clients: { label: string };
@@ -62,7 +60,7 @@ export const content: Record<Lang, Content> = {
 			description:
 				'Tvoříme svatební videa, firemní spoty a eventové záznamy, které zaujmou emoce i klienty. Kameraman, videomaker, producent.',
 		},
-		nav: { services: 'Služby', work: 'Tvorba', about: 'O nás', faq: 'FAQ', contact: 'Kontakt', menu: 'Menu', close: 'Zavřít' },
+		nav: { services: 'Služby', work: 'Tvorba', about: 'O nás', blog: 'Blog', faq: 'FAQ', contact: 'Kontakt', menu: 'Menu', close: 'Zavřít' },
 		hero: {
 			kicker: 'Kameraman · Videomaker · Produkce',
 			line1: 'Videa, která',
@@ -167,7 +165,7 @@ export const content: Record<Lang, Content> = {
 			description:
 				'Wedding films, company spots and event coverage that move people and win clients. Cameraman, videomaker, producer.',
 		},
-		nav: { services: 'Services', work: 'Work', about: 'About us', faq: 'FAQ', contact: 'Contact', menu: 'Menu', close: 'Close' },
+		nav: { services: 'Services', work: 'Work', about: 'About us', blog: 'Blog', faq: 'FAQ', contact: 'Contact', menu: 'Menu', close: 'Close' },
 		hero: {
 			kicker: 'Cameraman · Videomaker · Production',
 			line1: 'Videos that',

@@ -1,37 +1,55 @@
 ---
 import Base from '../layouts/Base.astro';
-import { blogPaths } from '../i18n/ui';
+import { paths, postPath, type Lang } from '../i18n/ui';
 import { posts, type Post } from '../data/posts';
 
 interface Props {
+	lang: Lang;
 	/** Show a single article; leave out for the list of articles */
 	post?: Post;
 }
-const { post } = Astro.props;
+const { lang, post } = Astro.props;
+
+const ui = {
+	cs: {
+		locale: 'cs-CZ',
+		heading: 'Filmařův Blog',
+		description: 'Články o natáčení videa, Reels a marketingu z pohledu filmaře.',
+		more: 'Číst dál →',
+	},
+	en: {
+		locale: 'en-GB',
+		heading: 'The Filmmaker’s Blog',
+		description: 'Articles about video production, Reels and marketing from a filmmaker’s point of view.',
+		more: 'Read more →',
+	},
+}[lang];
 
 const formatDate = (iso: string) =>
-	new Date(iso).toLocaleDateString('cs-CZ', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+	new Date(iso).toLocaleDateString(ui.locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
-const title = post ? `${post.title} – video-natáčení` : 'Filmařův Blog – video-natáčení';
-const firstParagraph = (p: Post) => p.body.find((b) => b.type === 'p');
-const description = post
-	? (firstParagraph(post) as { text: string }).text
-	: 'Články o natáčení videa, Reels a marketingu z pohledu filmaře.';
-const alt = { cs: post ? blogPaths.post(post.slug) : blogPaths.index };
+const article = post?.text[lang];
+const title = article ? `${article.title} – video-natáčení` : `${ui.heading} – video-natáčení`;
+const firstParagraph = (t: { body: Post['text'][Lang]['body'] }) => (t.body.find((b) => b.type === 'p') as { text: string }).text;
+const description = article ? firstParagraph(article) : ui.description;
+const alt = {
+	cs: post ? postPath('cs', post.slug) : paths.blog.cs,
+	en: post ? postPath('en', post.slug) : paths.blog.en,
+};
 
 const jsonLd = post && {
 	'@context': 'https://schema.org',
 	'@type': 'BlogPosting',
-	headline: post.title,
+	headline: article!.title,
 	datePublished: post.date,
-	inLanguage: 'cs',
+	inLanguage: lang,
 	author: { '@type': 'Person', name: 'Aleš Kratochvíl' },
 	publisher: { '@type': 'Organization', name: 'video-natáčení', url: new URL('/', Astro.site).href },
-	mainEntityOfPage: new URL(blogPaths.post(post.slug), Astro.site).href,
+	mainEntityOfPage: new URL(postPath(lang, post.slug), Astro.site).href,
 };
 ---
 
-<Base lang="cs" title={title} description={description} alt={alt}>
+<Base lang={lang} title={title} description={description} alt={alt}>
 	{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 	<section class="pp">
 		<div class="pp__glow" aria-hidden="true"></div>
@@ -42,13 +60,13 @@ const jsonLd = post && {
 				post ? (
 					<article>
 						<p class="eyebrow">
-							<a class="back" href={blogPaths.index}>← Filmařův Blog</a>
+							<a class="back" href={paths.blog[lang]}>← {ui.heading}</a>
 						</p>
 						<time class="date" datetime={post.date}>
 							{formatDate(post.date)}
 						</time>
-						<h1 class="pp__title">{post.title}</h1>
-						{post.body.map((b) =>
+						<h1 class="pp__title">{article!.title}</h1>
+						{article!.body.map((b) =>
 							b.type === 'p' ? (
 								<p class="pp__text">{b.text}</p>
 							) : b.type === 'h2' ? (
@@ -63,26 +81,26 @@ const jsonLd = post && {
 								</ul>
 							),
 						)}
-						{post.callout && (
+						{article!.callout && (
 							<div class="callout">
-								<h3>{post.callout.title}</h3>
-								<p>{post.callout.text}</p>
+								<h3>{article!.callout.title}</h3>
+								<p>{article!.callout.text}</p>
 							</div>
 						)}
 					</article>
 				) : (
 					<>
-						<h1 class="pp__title">Filmařův Blog</h1>
+						<h1 class="pp__title">{ui.heading}</h1>
 						<ul class="posts">
 							{posts.map((p) => (
 								<li>
-									<a href={blogPaths.post(p.slug)}>
+									<a href={postPath(lang, p.slug)}>
 										<time class="date" datetime={p.date}>
 											{formatDate(p.date)}
 										</time>
-										<h2>{p.title}</h2>
-										<p>{(firstParagraph(p) as { text: string }).text}</p>
-										<span class="more">Číst dál →</span>
+										<h2>{p.text[lang].title}</h2>
+										<p>{firstParagraph(p.text[lang])}</p>
+										<span class="more">{ui.more}</span>
 									</a>
 								</li>
 							))}
