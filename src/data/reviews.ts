@@ -42,4 +42,14 @@ export const reviews: Review[] = [
 		name: 'Jan J.',
 		stars: 5,
 	},
+	{
+		text: 'Naprosto perfektní spolupráce. Aleš pro nás točil aftermovie z akce pro 2 600 lidí s poměrně náročnými požadavky (záběry pouze plných hal, dostatečná vizibilita hlavních partnerů, výhradně pozitivní a aktivní interakce). Vše se povedlo na výbornou. Dále musím vypíchnout rychlou a profesionální přípravu i odevzdání finálního výstupu. Skvělá a rychlá komunikace, profesionální a zároveň přátelský přístup a perfektní zapracování našich připomínek do finálního střihu. Pokud hledáte někoho, na koho je spolehnutí i u velkých akcí, o koho se nebudete muset příliš starat, protože je za kamerou jako doma - Aleš je jasná volba',
+		name: 'Tereza K.',
+		stars: 5,
+	},
+	{
+		text: 'Jsme velice spokojeni. Město Nový Knín.',
+		name: 'Radek H.',
+		stars: 5,
+	},
 ];
