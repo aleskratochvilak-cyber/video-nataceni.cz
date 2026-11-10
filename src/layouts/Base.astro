@@ -6,7 +6,7 @@ import barlow700 from '@fontsource/barlow-condensed/files/barlow-condensed-latin
 import barlow700ext from '@fontsource/barlow-condensed/files/barlow-condensed-latin-ext-700-normal.woff2?url';
 import inter from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
 import interExt from '@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2?url';
-import { content, contact, languages, paths, withBase, type Lang } from '../i18n/ui';
+import { blogPaths, content, contact, languages, paths, withBase, type Lang } from '../i18n/ui';
 
 interface Props {
 	lang: Lang;
@@ -14,7 +14,7 @@ interface Props {
 	title?: string;
 	description?: string;
 	/** This page's address in each language, so the language switch lands on the same page */
-	alt?: Record<Lang, string>;
+	alt?: Partial<Record<Lang, string>>;
 	/** Show the header "free quote" button (hidden on the contact page itself) */
 	cta?: boolean;
 	/** Keep the page out of search results (the 404 page) */
@@ -30,6 +30,7 @@ const links = [
 	{ href: `${home}#sluzby`, label: c.nav.services },
 	{ href: `${home}#tvorba`, label: c.nav.work },
 	{ href: `${home}#o-nas`, label: c.nav.about },
+	...(lang === 'cs' ? [{ href: blogPaths.index, label: 'Blog' }] : []),
 	{ href: paths.faq[lang], label: c.nav.faq },
 	{ href: paths.contact[lang], label: c.nav.contact },
 ];
@@ -77,10 +78,11 @@ const links = [
 			) : (
 				<>
 					<link rel="canonical" href={absolute(Astro.url.pathname)} />
-					{Object.keys(languages).map((l) => (
-						<link rel="alternate" hreflang={l} href={absolute(alt[l as Lang])} />
-					))}
-					<link rel="alternate" hreflang="x-default" href={absolute(alt.cs)} />
+					{Object.keys(languages).map((l) => {
+						const href = alt[l as Lang];
+						return href && <link rel="alternate" hreflang={l} href={absolute(href)} />;
+					})}
+					<link rel="alternate" hreflang="x-default" href={absolute(alt.cs ?? paths.home.cs)} />
 				</>
 			)
 		}
@@ -96,7 +98,7 @@ const links = [
 				{cta && <a class="btn btn--solid bar__cta" href={paths.contact[lang]}>{c.hero.cta}</a>}
 				{
 					other.map((l) => (
-						<a href={alt[l]} hreflang={l} lang={l} class="lang">
+						<a href={alt[l] ?? paths.home[l]} hreflang={l} lang={l} class="lang">
 							{l.toUpperCase()}
 						</a>
 					))

@@ -18,6 +18,12 @@ export const paths = {
 	faq: { cs: withBase('/cs/faq/'), en: withBase('/en/faq/') },
 } as const satisfies Record<string, Record<Lang, string>>;
 
+/** The blog is Czech only: one list page and one page per article (see src/data/posts.ts) */
+export const blogPaths = {
+	index: withBase('/cs/blog/'),
+	post: (slug: string) => withBase(`/cs/blog/${slug}/`),
+};
+
 export const contact = {
 	phone: '+420 608 121 114',
 	phoneHref: 'tel:+420608121114',
