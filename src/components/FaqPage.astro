@@ -133,15 +133,17 @@ const jsonLd = {
 		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 	}
 	.pp__in {
-		max-width: 52rem;
+		max-width: none;
 		margin-inline: 0;
-		padding-inline: max(var(--pad), calc((100vw - 80rem) / 2 + var(--pad)));
+		padding-left: max(var(--pad), calc((100vw - 80rem) / 2 + var(--pad)));
+		padding-right: var(--pad);
 	}
 	.pp__title {
 		font-size: clamp(2.2rem, 6vw, 4.5rem);
 		line-height: 0.98;
 	}
 	.pp__h2 {
+		max-width: 44rem;
 		margin-top: clamp(2rem, 5vw, 3rem);
 		margin-bottom: 0.8rem;
 		padding-top: 1.5rem;
