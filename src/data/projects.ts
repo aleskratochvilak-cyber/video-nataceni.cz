@@ -64,6 +64,7 @@ export const projectSections: ProjectSection[] = [
 			'9E6mF6z2eMA',
 			'X3Nv-IdeOgw',
 			'gNBpqrUidkQ',
+			'ytNVXhqyhW0',
 		],
 	},
 ];
