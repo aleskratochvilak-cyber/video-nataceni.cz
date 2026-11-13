@@ -101,6 +101,11 @@ export const content: Record<Lang, Content> = {
 					text: 'Tvoříme poutavá Reels, TikTok videa a Shorts, která zaujmou během prvních sekund. Vertikální formáty z eventů i cílené reklamní spoty přivedou nové zákazníky a zvýší dosah.',
 					tags: ['Instagram Reels & TikTok', 'eventy a akce', 'marketingová videa'],
 				},
+				{
+					title: 'Propagační PR videa pro města a obce',
+					text: 'Tvoříme reprezentativní propagační videa pro městské části, obce a regiony. Kombinujeme působivé letecké záběry z dronu s detailními záběry ze země, které zachytí atmosféru, architekturu i život v dané lokalitě.',
+					tags: ['propagační video městské části a obce', 'záběry z dronu'],
+				},
 			],
 		},
 		clients: { label: 'Klienti' },
@@ -205,6 +210,11 @@ export const content: Record<Lang, Content> = {
 					title: 'Social media videos & Reels',
 					text: 'We create engaging Reels, TikTok videos and Shorts that grab attention within the first seconds. Vertical formats from events and targeted ad spots bring new customers and increase reach.',
 					tags: ['Instagram Reels & TikTok', 'events and shows', 'marketing videos'],
+				},
+				{
+					title: 'Promotional PR videos for towns and municipalities',
+					text: 'We create prestigious promotional videos for city districts, municipalities and regions. We combine impressive aerial drone footage with detailed ground-level shots that capture the atmosphere, architecture and everyday life of the place.',
+					tags: ['promotional video for city districts and municipalities', 'drone footage'],
 				},
 			],
 		},

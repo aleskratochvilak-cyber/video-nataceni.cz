@@ -49,6 +49,11 @@ export const projectSections: ProjectSection[] = [
 		videos: ['qhhKhz2Cu_A'],
 	},
 	{
+		id: 'propagacni-videa',
+		title: { cs: 'Propagační videa', en: 'Promotional videos' },
+		videos: ['rRz8V0_ts_k'],
+	},
+	{
 		id: 'vyber-projektu',
 		skipInHero: true,
 		title: { cs: 'Výběr z posledních projektů', en: 'A selection of recent projects' },
