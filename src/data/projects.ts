@@ -16,7 +16,7 @@ export const projectSections: ProjectSection[] = [
 		id: 'festivaly',
 		title: { cs: 'Městské slavnosti / Festivaly', en: 'City festivals / Festivals' },
 		nav: { cs: 'Festivaly', en: 'Festivals' },
-		videos: ['MkVUpOZPOPU', 'fhmHPPZRN94'],
+		videos: ['MkVUpOZPOPU', 'fhmHPPZRN94', 'oIXmNXaeOhg'],
 	},
 	{
 		id: 'eventy',
@@ -31,7 +31,7 @@ export const projectSections: ProjectSection[] = [
 	{
 		id: 'konference',
 		title: { cs: 'Konference', en: 'Conferences' },
-		videos: ['H_BA-Xo0QS8'],
+		videos: ['H_BA-Xo0QS8', 'DF43c0dtMwM'],
 	},
 	{
 		id: 'videopodcasty',
@@ -56,7 +56,7 @@ export const projectSections: ProjectSection[] = [
 	{
 		id: 'vyber-projektu',
 		skipInHero: true,
-		title: { cs: 'Výběr z posledních projektů', en: 'A selection of recent projects' },
+		title: { cs: 'Další realizace & aftermovie', en: 'More projects & aftermovies' },
 		videos: [
 			'259ocAg6GoI',
 			'dW1FZ62HjT8',
@@ -66,6 +66,7 @@ export const projectSections: ProjectSection[] = [
 			'gNBpqrUidkQ',
 			'EPKq0Ownzks',
 			'w-O5OYjCF9Y',
+			'DF43c0dtMwM',
 		],
 	},
 ];
