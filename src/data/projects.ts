@@ -31,7 +31,7 @@ export const projectSections: ProjectSection[] = [
 	{
 		id: 'konference',
 		title: { cs: 'Konference', en: 'Conferences' },
-		videos: ['H_BA-Xo0QS8', 'DF43c0dtMwM'],
+		videos: ['H_BA-Xo0QS8'],
 	},
 	{
 		id: 'videopodcasty',
@@ -41,7 +41,7 @@ export const projectSections: ProjectSection[] = [
 	{
 		id: 'svatby',
 		title: { cs: 'Svatby', en: 'Weddings' },
-		videos: ['bJ5k_tBmGE0', '6RrWNdgY8LU', 'nPUO2rg4I4s'],
+		videos: ['bJ5k_tBmGE0', 'nPUO2rg4I4s'],
 	},
 	{
 		id: 'hudebni-klipy',
@@ -64,8 +64,6 @@ export const projectSections: ProjectSection[] = [
 			'9E6mF6z2eMA',
 			'X3Nv-IdeOgw',
 			'gNBpqrUidkQ',
-			'EPKq0Ownzks',
-			'w-O5OYjCF9Y',
 			'DF43c0dtMwM',
 		],
 	},
