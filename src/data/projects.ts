@@ -31,7 +31,7 @@ export const projectSections: ProjectSection[] = [
 	{
 		id: 'konference',
 		title: { cs: 'Konference', en: 'Conferences' },
-		videos: ['H_BA-Xo0QS8'],
+		videos: ['H_BA-Xo0QS8', 'DF43c0dtMwM'],
 	},
 	{
 		id: 'videopodcasty',
@@ -64,7 +64,6 @@ export const projectSections: ProjectSection[] = [
 			'9E6mF6z2eMA',
 			'X3Nv-IdeOgw',
 			'gNBpqrUidkQ',
-			'DF43c0dtMwM',
 		],
 	},
 ];
