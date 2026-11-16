@@ -77,6 +77,7 @@ const links = [
 				<meta name="robots" content="noindex" />
 			) : (
 				<>
+					<meta name="robots" content="index, follow" />
 					<link rel="canonical" href={absolute(Astro.url.pathname)} />
 					{Object.keys(languages).map((l) => {
 						const href = alt[l as Lang];
